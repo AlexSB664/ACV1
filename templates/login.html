@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>Ayuda Contable Entrar</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+  </head>
+
+  <body class="text-center">
+      {% if user.is_authenticated %}
+      <META HTTP-EQUIV="REFRESH" CONTENT="0;URL={%  url 'index0' %}"> 
+      {% endif %}
+    <form class="form-signin" method="GET">
+    {% csrf_token %}
+      <img class="mb-4" src="/media/default.jpeg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Iniciar sesion</h1>
+      <label for="inputEmail" class="sr-only">Correo o nombre de usuario</label>
+      <input id="email" name="email" class="form-control" placeholder="Correo o nombre de usuario"  autofocus="" type="text">
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input id="password" name="password" class="form-control" placeholder="Contraseña" required="" type="password">
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+      <p class="mt-5 mb-3 text-muted">©2019 Ayuda Contable</p>
+    </form>
+  
+
+</body></html>

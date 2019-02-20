@@ -1,0 +1,31 @@
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-green">
+      <a class="navbar-brand" href="#"><img class="mb-4" src="/media/logo.jpeg" alt="" width="120" height="70"></a>
+      <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'index0' %}">Inicio</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administradores</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="{% url 'altaAdmin' %}">Agregar</a>
+              <a class="dropdown-item" href="#">Consultar</a>
+            </div>
+          <li class="nav-item">
+           <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown02">
+              <a class="dropdown-item" href="{% url 'altaUsuario' %}">Agregar</a>
+              <a class="dropdown-item" href="#">Consultar</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../cerrar">Salir</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
