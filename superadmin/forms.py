@@ -88,3 +88,7 @@ class UsuarioForm(UserCreationForm):
 			'genero' : 'Genero:',
 			'foto_perfil' : 'Foto de Perfil:',
 		}
+
+class LoginForm(forms.ModelForm):
+	correo = forms.CharField(label='Correo:',widget=forms.TextInput(attrs={'class':'sr-only'}))
+	password = forms.CharField(label='Contraseña:',widget=forms.TextInput(attrs={'class':'sr-only'}))

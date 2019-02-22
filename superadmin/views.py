@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import AdminForm,UsuarioForm
+from .forms import AdminForm,UsuarioForm,LoginForm
 from administrador.models import Administrador
 from usuario.models import Usuario
 from django.views import generic
@@ -52,19 +52,31 @@ class altaUsuario(generic.FormView):
         usuario.save()
         return super(altaUsuario,self).form_valid(form)
 
-def login(request):
-    ctx = {'meh':'meh'}
-    if  request.method == 'GET':
-        username = request.GET['email']
-        password = request.GET['password']
-        ctx = {'Alumno': username, 'Padres': password}
-        
-        user = auth.authenticate(nombre_usuario = email, password = password)
+class login(generic.FormView):
+    template_name='login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('index0')
+
+    def form_valid(self,form):
+        usuario = form.cleaned_data['correo']
+        contra = form.cleaned_data['password']
+        user = auth.authenticate(email=usuario,password=contra)
         if user is not None:
-            auth.login(request, user)
-            return HttpResponseRedirect('/superadmin/index/')
+            auth.login(request,user)
+            return HttpResponseRedirect('index0')
         else:
-            # Show an error page
-            return render(request, ctx)
-    else:
-        return render(request, ctx)
+            return render(request,'login.html') 
+#def login(request):
+#    if  request.method == 'POST':
+#        username = request.POST['email']
+#        password = request.POST['password']
+#        
+#        user = auth.authenticate(email = email, password = password)
+#        if user is not None:
+#            auth.login(request, user)
+#            return HttpResponseRedirect('superadmin/index/')
+#        else:
+#            # Show an error page
+#            return render(request,'login.html')
+#    else:
+#        return render(request,'login.html')
