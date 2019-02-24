@@ -28,6 +28,7 @@ from django.contrib.auth.views import logout_then_login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^$',usuario.views.login, name='index'),
     url(r'^login/$',usuario.views.login, name='login'),
     url(r'^redi/$',usuario.views.redirecionDeEspacio,name='redi'),
     url(r'^superadmin/index/$',superadmin.views.index0, name='index0'),
