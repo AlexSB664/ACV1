@@ -18,37 +18,19 @@
 
   <body class="text-center">
       {% if user.is_authenticated %}
-      <META HTTP-EQUIV="REFRESH" CONTENT="0;URL={%  url 'index0' %}"> 
+      <META HTTP-EQUIV="REFRESH" CONTENT="0;URL={%  url 'index0' %}">
       {% endif %}
-    <form class="form-signin" method="POST" action="{%  url 'login' %}">
+    <form class="form-signin" method="POST">
     {% csrf_token %}
       <img class="mb-4" src="/media/default.jpeg" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Iniciar sesion</h1>
-      
-        {% if form.errors %}
-        {% for field in form %}
-            {% for error in field.errors %}
-                <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-                </div>
-      {% endfor %}
-      {% endfor %}
-      {% for error in form.non_field_errors %}
-            <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-            </div>
-      {% endfor %}
-      {% endif %}
-                        <label></label>
-                        
-                        <div class="form-group">
-                            <span id='message'></span>
-
-      {{form}}
-
+      <label for="inputEmail" class="sr-only">Correo o nombre de usuario</label>
+      <input id="email" name="email" class="form-control" placeholder="Correo o nombre de usuario"  autofocus="" type="text">
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input id="password" name="password" class="form-control" placeholder="Contraseña" required="" type="password">
       <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
       <p class="mt-5 mb-3 text-muted">©2019 Ayuda Contable</p>
     </form>
-  
+
 
 </body></html>

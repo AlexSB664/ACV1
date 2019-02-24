@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load staticfiles %}
+{% block title %}{% endblock %}
+{% block archivos %}{% endblock %}
+</head>
+<body>
+    {% if user.is_authenticated %}
+      {% if perms.superusuario.is_superuser %}
+      <meta http-equiv="refresh" content="0; URL={% url 'index0' %}" /> 
+      {% else %}
+        {% if perms.administrador.is_admin %}
+        <meta http-equiv="refresh" content="0; URL={% url 'index1' %}" /> 
+        {% endif %}
+        {% if perms.administrador.is_seller %}
+        <h1>Bienvenido vendedor</h1>
+        {% endif %}
+        {% if perms.usuario.is_user %}
+        <h1>Bienvenido usuario</h1>
+        {% endif %}
+      {% endif %}
+
+    {% else %}
+    <meta http-equiv="refresh" content="0; URL={% url 'login' %}" /> 
+    {% endif %}
+    <div class="container">
+    {% block content %}
+    {% endblock %}
+    </body>
+</html>
+

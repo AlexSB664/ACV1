@@ -9,7 +9,7 @@ from django.contrib import auth
 
 # Create your views here.
 def index0(request):    
-	return render(request,'superadmin/index.html')
+	return render(request,'superadmin/index1.html')
 
 class altaAdmin(generic.FormView):
     template_name = 'superadmin/altaAdmin.html'
