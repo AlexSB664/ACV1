@@ -8,10 +8,10 @@ def user_directory_path(instance, filename):
 class ArchivoForm(forms.ModelForm):
     class Meta:
         model = Archivos
-        fields = ('archivo',)
+        fields = ('contador','usuario','archivo',)
         widgets = {
         	'archivo': forms.FileInput(attrs = {'class':'form-control','accept':'.pdf,.xml'}),
         }
         labels = {
-			'email' : 'Archivo:',
+			'archivo' : 'Archivo:',
 		}

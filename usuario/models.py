@@ -26,7 +26,7 @@ class Cliente(models.Model):
 	razon_social = models.CharField(max_length=200,null=True)
 	direccion = models.CharField(max_length=200, null=True)
 	RFC = models.CharField(max_length=10,null=True)
-	#asesor = models.OneToManyField(Usuario, on_delete=models.CASCADE) 
+	contador = models.OneToOneField(Usuario, on_delete=models.CASCADE,null=True) 
 
 	def __str__(self):
 		return self.RFC.nombre_completo
