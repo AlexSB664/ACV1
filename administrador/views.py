@@ -11,6 +11,7 @@ def subidaXML(request):
 	if request.method == 'POST':
 		form = ArchivoForm1(request.POST, request.FILES)
 		if form.is_valid():
+			form.contador=request.user.id
 			form.save(request.user.id)
 			return redirect('index1')
 	else:
@@ -18,3 +19,7 @@ def subidaXML(request):
 		return render(request, 'administrador/subida.html', {
 			'form': form
 		})
+
+def get_id(request):
+    current_user = request.user
+    return current_user.id
