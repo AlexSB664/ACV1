@@ -43,7 +43,17 @@
                         <div class="form-group">
                             <span id='message'></span>
 
-   {{form}}
+   {% for fields in form%}
+   {% if fields.name == 'contador' %}
+        {{fields.label}}
+        <input type="text" name="contador" class="form-control" readonly="readonly" id="id_contador" value="{{admin.id}}">
+   {% else %}
+        {{fields.label}}
+      {{fields}}
+        
+   {% endif %}
+
+   {% endfor %}
                         </div>
                         <div class="form-group">
                             <div>

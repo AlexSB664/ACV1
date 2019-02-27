@@ -19,10 +19,12 @@ class ArchivoForm(forms.ModelForm):
 class ArchivoForm1(forms.ModelForm):
     class Meta:
         model = Archivo
-        fields = ('usuario','archivo',)
+        fields = ('contador','usuario','archivo',)
         widgets = {
             'archivo': forms.FileInput(attrs = {'class':'form-control','accept':'.pdf,.xml'}),
+            'contador': forms.TextInput(attrs = {'class':'form-control','readonly':'readonly'}),
         }
         labels = {
             'archivo' : 'Archivo:',
+            'contador': 'Contador:',
         }
