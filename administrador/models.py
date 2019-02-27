@@ -22,8 +22,14 @@ class Administrador(models.Model):
             ('is_seller', 'Is_Seller'),
             )
 
-class Archivos(models.Model):
+class Archivo(models.Model):
     subido_el = models.DateTimeField(auto_now_add=True)
     contador = models.ForeignKey(Administrador, on_delete=models.CASCADE, blank=True, null=True,related_name="contadorACargo")
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, blank=True, null=True,related_name="FDI")
-    archivo = models.FileField(upload_to='documentos/')
+    archivo = models.FileField(upload_to='superadmin/')
+
+    def save(self,id):
+        for field in self._meta.fields:
+            if fields.name =='archivo':
+                field.upload_to = 'cfdi/'+id
+        super(Archivo, self).save()

@@ -65,18 +65,4 @@ class login(generic.FormView):
             auth.login(request,user)
             return HttpResponseRedirect('index0')
         else:
-            return render(request,'login.html') 
-#def login(request):
-#    if  request.method == 'POST':
-#        username = request.POST['email']
-#        password = request.POST['password']
-#        
-#        user = auth.authenticate(email = email, password = password)
-#        if user is not None:
-#            auth.login(request, user)
-#            return HttpResponseRedirect('superadmin/index/')
-#        else:
-#            # Show an error page
-#            return render(request,'login.html')
-#    else:
-#        return render(request,'login.html')
+            return render(request,'login.html')
