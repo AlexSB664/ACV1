@@ -4,6 +4,7 @@ from django.db import models
 
 from superadmin.models import User
 from usuario.models import Usuario
+import os
 
 class Administrador(models.Model):
     email = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -30,3 +31,6 @@ class Archivo(models.Model):
     contador = models.ForeignKey(Administrador, on_delete=models.CASCADE, blank=True, null=True,related_name="contadorACargo")
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, blank=True, null=True,related_name="FDI")
     archivo = models.FileField(upload_to=upload_to)
+
+    def filename(self):
+        return os.path.basename(self.archivo.name)

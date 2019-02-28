@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+  {% block title %} Inicio {% endblock %}
+  {% block menubar %}{% include "administrador/menu.html" %}{% endblock %}
+
+{% block content %}
+    <main role="main" class="container">
+    	<div class="container body-content" style="margin-top: 100px;">
+        <main role="main">
+            
+
+
+<div class="container">
+    <div class="login-form col-md-12 offset-md-0" style="border-radius:3%;">
+        <h2 class="panel-title text-center">Subir archivos</h2>
+        <hr>
+        <h4 color="royalblue" class="text-center">XML o PDF</h4>
+        <div style="text-align:center">
+        <span id='message'></span>
+        </div>
+        
+            <div id="singup" class="container tab-pane  active show" style="border-top:1px solid #2196f3; border-bottom:1px solid #2196f3; border-left:1px solid #2196f3; border-right:1px solid #2196f3;">
+                <br>
+            <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        
+                        <label></label>
+                        
+                        <div class="form-group">
+                            <span id='message'></span>
+                            {% for documento in documentos %}
+							<a href="{{documento}}"> {{documento}}</a>
+							<br>
+							{% endfor %}
+  
+                        </div>
+                        <div class="form-group">
+                            <div>
+                               </div>
+                        </div>
+                    </div>
+            </form>            </div>
+     
+    </div>
+</div>
+
+        </main>
+    </div>
+
+    <!--  Scripts-->
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+
+
+    </main>
+
+</style></defs><text x="0" y="2" style="font-weight:bold;font-size:2pt;font-family:Arial, Helvetica, Open Sans, sans-serif">32x32</text></svg>
+{% endblock %}

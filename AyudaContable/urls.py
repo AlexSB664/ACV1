@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^superadmin/alta_de_usuario/$',superadmin.views.altaUsuario.as_view(), name='altaUsuario'),
     url(r'^administrador/index/$',administrador.views.index1,name='index1'),
     url(r'^administrador/subida/$',administrador.views.subidaXML,name='subidaXML'),
+    url(r'^administrador/documentos/$',administrador.views.archivosDB, name='vistaDocumentos'),
     url(r'^logout$', logout_then_login, name='logout' ),
 ]
 #para las fotos
