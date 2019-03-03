@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
   {% block title %} Inicio {% endblock %}
-  {% block menubar %}{% include "administrador/menu.html" %}{% endblock %}
+  {% block menubar %}{% include "usuario/menu.html" %}{% endblock %}
 
 {% block content %}
     <main role="main" class="container">
@@ -24,42 +24,20 @@
             <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div>
-                        {% if form.errors %}
-        {% for field in form %}
-            {% for error in field.errors %}
-                <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-                </div>
-            {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
-            <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endif %}
+                        
                         <label></label>
                         
                         <div class="form-group">
                             <span id='message'></span>
-
-   {% for fields in form%}
-   {% if fields.name == 'contador' %}
-        {{fields.label}}
-        <input type="text" name="contador" class="form-control" readonly="readonly" id="id_contador" value="{{admin}}">
-        <input type="hidden" name="contador" class="form-control" readonly="readonly" id="id_contador" value="{{admin.id}}">
-   {% else %}
-        {{fields.label}}
-      {{fields}}
-        
-   {% endif %}
-
-   {% endfor %}
+                            {% for documento in documentos %}
+							<a href="../../media/{{documento.archivo}}"> {{documento.filename}}</a>
+							<br>
+							{% endfor %}
+  
                         </div>
                         <div class="form-group">
                             <div>
-                                <button id="registrar" type="submit" color="royalblue" class="btn btn-primary waves-effect waves-light">Subir</button>
-                            </div>
+                               </div>
                         </div>
                     </div>
             </form>            </div>

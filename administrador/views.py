@@ -16,7 +16,7 @@ def subidaXML(request):
 		form = ArchivoForm1(request.POST, request.FILES)
 		if form.is_valid():
 			form.save()
-		return redirect('index1')
+		return redirect('vistaDocumentos')
 	else:
 		form = ArchivoForm1() 
 		usuario = User.objects.get(email=request.user.email)
@@ -43,12 +43,3 @@ def archivosDB(request):
 	admin = Administrador.objects.get(email=usuario.id)
 	archivos = Archivo.objects.filter(contador=admin.id)
 	return render(request,'administrador/documentosDB.html', {'documentos': archivos})
-
-def leerXML(request):
-	xmldoc = minidom.parse('synchro.xml')
-	readbitlist = xmldoc.getElementsByTagName('readbit')
-	values = []
-	for s in readbitlist :
-		x = s.attributes['bit'].value
-		values.append(x)
-	return render(request,{'values': values})

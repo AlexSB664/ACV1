@@ -17,10 +17,9 @@
         <h1>Bienvenido vendedor</h1>
         {% endif %}
         {% if perms.usuario.is_user %}
-        <h1>Bienvenido usuario</h1>
+        <meta http-equiv="refresh" content="0; URL={% url 'index3' %}" />
         {% endif %}
       {% endif %}
-
     {% else %}
     <meta http-equiv="refresh" content="0; URL={% url 'login' %}" /> 
     {% endif %}

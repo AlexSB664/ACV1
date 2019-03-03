@@ -19,6 +19,7 @@ from django.conf.urls import url, include
 import usuario.views
 import superadmin.views
 import administrador.views
+import usuario.views
 #para las fotos
 from django.conf import settings
 from django.conf.urls.static import static
@@ -37,6 +38,8 @@ urlpatterns = [
     url(r'^administrador/index/$',administrador.views.index1,name='index1'),
     url(r'^administrador/subida/$',administrador.views.subidaXML,name='subidaXML'),
     url(r'^administrador/documentos/$',administrador.views.archivosDB, name='vistaDocumentos'),
+    url(r'^usuario/index/$',usuario.views.index3,name='index3'),
+    url(r'^usuario/documentos/$',usuario.views.archivosGeneral,name='vistaGeneral'),
     url(r'^logout$', logout_then_login, name='logout' ),
 ]
 #para las fotos
