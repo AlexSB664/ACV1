@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^administrador/documentos/$',administrador.views.archivosDB, name='vistaDocumentos'),
     url(r'^usuario/index/$',usuario.views.index3,name='index3'),
     url(r'^usuario/documentos/$',usuario.views.archivosGeneral,name='vistaGeneral'),
+    url(r'^usuario/documentosN/$',usuario.views.leerXMLN,name='vistaN'),
     url(r'^logout$', logout_then_login, name='logout' ),
 ]
 #para las fotos

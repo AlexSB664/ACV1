@@ -28,9 +28,10 @@
                         <label></label>
                         
                         <div class="form-group">
+                            {{documentos}}
                             <span id='message'></span>
-                            {% for documento in documentos %}
-							<a href="../../media/{{documento.archivo}}"> {{documento.filename}}</a>
+                        {% for cfdi in cfdis %}
+							<a href="../../media/{{cfdi.archivo}}"> {{cfdi.filename}}</a>
 							<br>
 							{% endfor %}
   

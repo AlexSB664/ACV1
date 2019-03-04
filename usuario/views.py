@@ -52,13 +52,15 @@ def leerXMLN(request):
     usuario = User.objects.get(email=request.user.email)
     usuar = Usuario.objects.get(email=usuario.id)
     cfdis = Archivo.objects.filter(contador=usuar.id)
+    exlcluidos = []
     xmls = []
-    for cfdi in cfdis:
-        x=minidom.parse(os.getcwd()+"/media/"+str(cfdi.archivo))
-        lineas=xml.getElementsByTagName("cfdi:Comprobante")
+    for x in cfdis:
+        x=minidom.parse(os.getcwd()+"/media/"+str(x.archivo))
+        lineas=x.getElementsByTagName("cfdi:Comprobante")
         for linea in lineas:
             y=linea.getAttribute("TipoDeComprobante")
             if y == "N":
-                xmls.append(cfdi)
+                xmls.append(x)
             else:
-    return render(request,'usuario/documentosDB.html', {'documentos': archivos})
+                break
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls},{'cfdis': cfdis})
