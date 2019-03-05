@@ -52,14 +52,61 @@ def leerXMLN(request):
     usuario = User.objects.get(email=request.user.email)
     usuar = Usuario.objects.get(email=usuario.id)
     cfdis = Archivo.objects.filter(contador=usuar.id)
-    exlcluidos = []
     xmls = []
     for x in cfdis:
-        x=minidom.parse(os.getcwd()+"/media/"+str(x.archivo))
-        lineas=x.getElementsByTagName("cfdi:Comprobante")
+        y=minidom.parse(os.getcwd()+"/media/"+str(x.archivo))
+        lineas=y.getElementsByTagName("cfdi:Comprobante")
         for linea in lineas:
-            y=linea.getAttribute("TipoDeComprobante")
-            if y == "N":
+            z=linea.getAttribute("TipoDeComprobante")
+            if z == "N":
+                xmls.append(x)
+            else:
+                break
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls},{'cfdis': cfdis})
+
+def leerXMLI(request):
+    usuario = User.objects.get(email=request.user.email)
+    usuar = Usuario.objects.get(email=usuario.id)
+    cfdis = Archivo.objects.filter(contador=usuar.id)
+    xmls = []
+    for x in cfdis:
+        y=minidom.parse(os.getcwd()+"/media/"+str(x.archivo))
+        lineas=y.getElementsByTagName("cfdi:Comprobante")
+        for linea in lineas:
+            z=linea.getAttribute("TipoDeComprobante")
+            if z == "I":
+                xmls.append(x)
+            else:
+                break
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls},{'cfdis': cfdis})
+
+def leerXMLE(request):
+    usuario = User.objects.get(email=request.user.email)
+    usuar = Usuario.objects.get(email=usuario.id)
+    cfdis = Archivo.objects.filter(contador=usuar.id)
+    xmls = []
+    for x in cfdis:
+        y=minidom.parse(os.getcwd()+"/media/"+str(x.archivo))
+        lineas=y.getElementsByTagName("cfdi:Comprobante")
+        for linea in lineas:
+            z=linea.getAttribute("TipoDeComprobante")
+            if z == "E":
+                xmls.append(x)
+            else:
+                break
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls},{'cfdis': cfdis})
+
+def leerXMLP(request):
+    usuario = User.objects.get(email=request.user.email)
+    usuar = Usuario.objects.get(email=usuario.id)
+    cfdis = Archivo.objects.filter(contador=usuar.id)
+    xmls = []
+    for x in cfdis:
+        y=minidom.parse(os.getcwd()+"/media/"+str(x.archivo))
+        lineas=y.getElementsByTagName("cfdi:Comprobante")
+        for linea in lineas:
+            z=linea.getAttribute("TipoDeComprobante")
+            if z == "P":
                 xmls.append(x)
             else:
                 break
