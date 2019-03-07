@@ -62,7 +62,7 @@ def leerXMLN(request):
                 xmls.append(x)
             else:
                 break
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls},{'cfdis': cfdis})
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis})
 
 def leerXMLI(request):
     usuario = User.objects.get(email=request.user.email)
@@ -78,7 +78,7 @@ def leerXMLI(request):
                 xmls.append(x)
             else:
                 break
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls},{'cfdis': cfdis})
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis})
 
 def leerXMLE(request):
     usuario = User.objects.get(email=request.user.email)
@@ -94,7 +94,7 @@ def leerXMLE(request):
                 xmls.append(x)
             else:
                 break
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls},{'cfdis': cfdis})
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis})
 
 def leerXMLP(request):
     usuario = User.objects.get(email=request.user.email)
@@ -110,4 +110,4 @@ def leerXMLP(request):
                 xmls.append(x)
             else:
                 break
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls},{'cfdis': cfdis})
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis})

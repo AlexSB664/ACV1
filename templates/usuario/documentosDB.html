@@ -12,9 +12,10 @@
 
 <div class="container">
     <div class="login-form col-md-12 offset-md-0" style="border-radius:3%;">
-        <h2 class="panel-title text-center">Subir archivos</h2>
+        <h2 class="panel-title text-center">Archivos</h2>
         <hr>
-        <h4 color="royalblue" class="text-center">XML o PDF</h4>
+        <h4 color="royalblue" class="text-center">mes de: {% now "F" %}</h4>
+
         <div style="text-align:center">
         <span id='message'></span>
         </div>
@@ -36,10 +37,31 @@
 							{% endfor %}
   
                         </div>
-                        <div class="form-group">
-                            <div>
-                               </div>
-                        </div>
+
+
+                        <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Acciones</th>
+                            <th>RFC Cliente</th> 
+                            <th>Razón Social</th>
+                            <th>Fecha de Emision</th>
+                            <th>Vigente</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td>Descargar</td>
+                            <td></td> 
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>Eve</td>
+                            <td>Jackson</td> 
+                            <td>94</td>
+                        </tr>
+                        </table>
+
                     </div>
             </form>            </div>
      
