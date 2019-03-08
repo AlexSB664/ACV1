@@ -14,7 +14,8 @@
     <div class="login-form col-md-12 offset-md-0" style="border-radius:3%;">
         <h2 class="panel-title text-center">Archivos</h2>
         <hr>
-        <h4 color="royalblue" class="text-center">mes de: {% now "F" %}</h4>
+        <h4 color="royalblue" class="text-center">mes de: {%  now "F" %}
+        </h4>
 
         <div style="text-align:center">
         <span id='message'></span>
@@ -31,10 +32,6 @@
                         <div class="form-group">
                             <h2></h2>
                             <span id='message'></span>
-                        {% for documento in documentos %}
-							<a href="../../media/{{documento.xml}}">{{documento.filename}}</a>
-							<br>
-						{% endfor %}
   
                         </div>
 
