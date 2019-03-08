@@ -26,11 +26,12 @@ class Administrador(models.Model):
 def upload_to(self, filename):
     return u'documentos/user_{0}/{1}'.format(self.contador.id, filename)
 
-class Archivo(models.Model):
+class Factura(models.Model):
     subido_el = models.DateTimeField(auto_now_add=True)
     contador = models.ForeignKey(Administrador, on_delete=models.CASCADE, blank=True, null=True,related_name="contadorACargo")
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, blank=True, null=True,related_name="FDI")
-    archivo = models.FileField(upload_to=upload_to)
+    xml = models.FileField(upload_to=upload_to)
+    pdf = models.FileField(upload_to=upload_to)
 
     def filename(self):
-        return os.path.basename(self.archivo.name)
+        return os.path.basename(self.xml.name)

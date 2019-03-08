@@ -48,9 +48,11 @@
         {{fields.label}}
         <input type="text" name="contador" class="form-control" readonly="readonly" id="id_contador" value="{{admin}}">
         <input type="hidden" name="contador" class="form-control" readonly="readonly" id="id_contador" value="{{admin.id}}">
+
    {% else %}
         {{fields.label}}
-      {{fields}}
+        {{fields}}
+               <br>
         
    {% endif %}
 

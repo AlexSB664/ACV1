@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from .forms import ArchivoForm1
-from .models import Administrador,Archivo
+from .models import Administrador,Factura
 from superadmin.models import User
 from django.conf import settings
 import os
@@ -26,10 +26,6 @@ def subidaXML(request):
 			'admin': admin
 		})
 
-def get_id(request):
-    current_user = request.user
-    return current_user.id
-
 def archivos(request):
 	usuario = User.objects.get(email=request.user.email)
 	admin = Administrador.objects.get(email=usuario.id)
@@ -41,5 +37,5 @@ def archivos(request):
 def archivosDB(request):
 	usuario = User.objects.get(email=request.user.email)
 	admin = Administrador.objects.get(email=usuario.id)
-	archivos = Archivo.objects.filter(contador=admin.id)
+	archivos = Factura.objects.filter(contador=admin.id)
 	return render(request,'administrador/documentosDB.html', {'documentos': archivos})

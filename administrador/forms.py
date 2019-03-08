@@ -1,5 +1,5 @@
 from django import forms
-from .models import Archivo
+from .models import Factura
 
 def user_directory_path(instance, filename):
 	# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
@@ -7,24 +7,26 @@ def user_directory_path(instance, filename):
 
 class ArchivoForm(forms.ModelForm):
     class Meta:
-        model = Archivo
-        fields = ('contador','usuario','archivo',)
+        model = Factura
+        fields = ('contador','usuario','xml',)
         widgets = {
-        	'archivo': forms.FileInput(attrs = {'class':'form-control','accept':'.pdf,.xml'}),
+        	'xml': forms.FileInput(attrs = {'class':'form-control','accept':'.pdf,.xml'}),
         }
         labels = {
-			'archivo' : 'Archivo:',
+			'xml' : 'Archivo:',
 		}
 
 class ArchivoForm1(forms.ModelForm):
     class Meta:
-        model = Archivo
-        fields = ('contador','usuario','archivo',)
+        model = Factura
+        fields = ('contador','usuario','xml','pdf')
         widgets = {
-            'archivo': forms.FileInput(attrs = {'class':'form-control','accept':'.pdf,.xml'}),
+            'xml': forms.FileInput(attrs = {'class':'form-control','accept':'.xml'}),
+            'pdf': forms.FileInput(attrs = {'class':'form-control','accept':'.pdf'}),
             'contador': forms.TextInput(attrs = {'class':'form-control','readonly':'readonly'}),
         }
         labels = {
-            'archivo' : 'Archivo:',
+            'xml' : 'XML:',
+            'pdf':'PDF:',
             'contador': 'Contador:',
         }

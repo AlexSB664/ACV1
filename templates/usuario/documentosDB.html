@@ -32,9 +32,9 @@
                             <h2></h2>
                             <span id='message'></span>
                         {% for documento in documentos %}
-							<a href="../../media/{{documento.archivo}}">{{documento.filename}}</a>
+							<a href="../../media/{{documento.xml}}">{{documento.filename}}</a>
 							<br>
-							{% endfor %}
+						{% endfor %}
   
                         </div>
 
@@ -47,19 +47,18 @@
                             <th>Razón Social</th>
                             <th>Fecha de Emision</th>
                             <th>Vigente</th>
+                            <th>SubTotal</th>
                             <th>Total</th>
                         </tr>
                         </thead>
+                        {% for renglon in tabla %}
                         <tr>
-                            <td>Descargar</td>
-                            <td></td> 
-                            <td>50</td>
+                            <th>Descargar</th>
+                            {% for columna in renglon %}
+                                <th>{{columna}}</th>
+                            {% endfor %}
                         </tr>
-                        <tr>
-                            <td>Eve</td>
-                            <td>Jackson</td> 
-                            <td>94</td>
-                        </tr>
+                        {% endfor %}
                         </table>
 
                     </div>
