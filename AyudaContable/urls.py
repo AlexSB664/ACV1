@@ -25,6 +25,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 from django.contrib.auth.views import logout_then_login
+from django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
@@ -45,11 +46,4 @@ urlpatterns = [
     url(r'^usuario/documentosI/$',usuario.views.leerXMLI,name='vistaI'),
     url(r'^usuario/documentosP/$',usuario.views.leerXMLP,name='vistaP'),
     url(r'^logout$', logout_then_login, name='logout' ),
-]
-#para las fotos
-if settings.DEBUG:
-    urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
