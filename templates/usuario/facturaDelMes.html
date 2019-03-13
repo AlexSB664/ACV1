@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+  {% block title %} Inicio {% endblock %}
+  {% block menubar %}{% include "usuario/menu.html" %}{% endblock %}
+
+{% block content %}
+    <main role="main" class="container">
+    	<div class="container body-content" style="margin-top: 100px;">
+        <main role="main">
+            
+
+
+<div class="container">
+    <div class="login-form col-md-12 offset-md-0" style="border-radius:3%;">
+        <h2 class="panel-title text-center">Archivos</h2>
+        <hr>
+        <h4 color="royalblue" class="text-center">Mes de: {{mes}}
+        </h4>
+
+        <div style="text-align:center">
+        <span id='message'></span>
+        </div>
+        
+            <div id="singup" class="container tab-pane  active show" style="border-top:1px solid #2196f3; border-bottom:1px solid #2196f3; border-left:1px solid #2196f3; border-right:1px solid #2196f3;">
+                <br>
+            <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        
+                        <label></label>
+                        
+                        <div class="form-group">
+                            <h2></h2>
+                            <span id='message'></span>
+  
+                        </div>
+
+
+                        <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Acciones</th>
+                            <th>RFC Cliente</th> 
+                            <th>Razón Social</th>
+                            <th>Fecha de Emision</th>
+                            <th>Vigente</th>
+                            <th>SubTotal</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        {% for renglon in tabla %}
+                        <tr>
+                            <th>Descargar</th>
+                            {% for columna in renglon %}
+                                <th>{{columna}}</th>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                        	<th></th>
+                        	<th></th>
+                        	<th></th>
+                        	<th></th>
+                        	<th></th>
+                        	<th>Total del Mes:</th>
+                        	<th>{{total}}</th>
+                        </tr>
+                        </table>
+
+                    </div>
+            </form>            </div>
+     
+    </div>
+</div>
+
+        </main>
+    </div>
+
+    <!--  Scripts-->
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+
+
+    </main>
+
+</style></defs><text x="0" y="2" style="font-weight:bold;font-size:2pt;font-family:Arial, Helvetica, Open Sans, sans-serif"></text></svg>
+{% endblock %}
