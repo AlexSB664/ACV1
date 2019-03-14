@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from superadmin.models import User
-from administrador.models import Factura
+from usuario.models import Factura
 from .models import Usuario
 from xml.dom import minidom
 import datetime

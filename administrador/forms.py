@@ -1,5 +1,5 @@
 from django import forms
-from .models import Factura
+from usuario.models import Factura
 
 def user_directory_path(instance, filename):
 	# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>

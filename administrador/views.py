@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from .forms import ArchivoForm1
-from .models import Administrador,Factura
+from administrador.forms import ArchivoForm1
+from administrador.models import Administrador
+from usuario.models import Factura
 from superadmin.models import User
 from django.conf import settings
+from usuario.models import Usuario
 import os
 # Create your views here.
 
@@ -39,3 +41,9 @@ def archivosDB(request):
 	admin = Administrador.objects.get(email=usuario.id)
 	archivos = Factura.objects.filter(contador=admin.id)
 	return render(request,'administrador/documentosDB.html', {'documentos': archivos})
+
+def usuariosACargo(request):
+	usuario = User.objects.get(email=request.user.email)
+	admin = Administrador.objects.get(email=usuario.id)
+	usuarios = Usuario.objects.filter(contador=admin.id)
+	return render(request,'administrador/usuarios.html',{'usuarios':usuarios})

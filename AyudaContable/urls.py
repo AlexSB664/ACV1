@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^administrador/index/$',administrador.views.index1,name='index1'),
     url(r'^administrador/subida/$',administrador.views.subidaXML,name='subidaXML'),
     url(r'^administrador/documentos/$',administrador.views.archivosDB, name='vistaDocumentos'),
+    url(r'^administrador/usuarios/$',administrador.views.usuariosACargo,name='usuariosACargo'),
     url(r'^usuario/index/$',usuario.views.index3,name='index3'),
     url(r'^usuario/documentos/$',usuario.views.archivosGeneral,name='vistaGeneral'),
     url(r'^usuario/documentosN/$',usuario.views.FacturasDelMes,name='vistaN'),

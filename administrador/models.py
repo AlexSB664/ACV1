@@ -1,9 +1,8 @@
 from django.db import models
 
 # Create your models here.
-
 from superadmin.models import User
-from usuario.models import Usuario
+#from usuario.models import Usuario
 import os
 
 class Administrador(models.Model):
@@ -22,23 +21,3 @@ class Administrador(models.Model):
             ('is_admin', 'Is_Admin'),
             ('is_seller', 'Is_Seller'),
             )
-
-def upload_to(self, filename):
-    return u'documentos/user_{0}/{1}'.format(self.contador.id, filename)
-
-class Factura(models.Model):
-    subido_el = models.DateTimeField(auto_now_add=True)
-    contador = models.ForeignKey(Administrador, on_delete=models.CASCADE, blank=True, null=True,related_name="contadorACargo")
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, blank=True, null=True,related_name="FDI")
-    xml = models.FileField(upload_to=upload_to)
-    pdf = models.FileField(upload_to=upload_to)
-
-    def filename(self):
-        return os.path.basename(self.xml.name)
-
-    def clean_xml(self):
-        xml = self.cleaned_data.get("xml", False)
-        filetype = magic.from_buffer(xml.read())
-        if not "XML" in filetype:
-            raise ValidationError("File is not XML.")
-        return null
