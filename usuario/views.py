@@ -89,23 +89,38 @@ def leerXMLN(request):
     cfdis = Factura.objects.filter(usuario=usuar.id)
     xmls = clasificar('N',cfdis)
     tabla = entablar(xmls)
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla})
+    hoy = datetime.date.today()
+    mes = hoy.month
+    anio = hoy.year
+    tabla = filtrarMes(tabla,mes,anio)
+    total = totalDelMes(tabla)
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total})
 
 def leerXMLI(request):
     usuario = User.objects.get(email=request.user.email)
     usuar = Usuario.objects.get(email=usuario.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
     xmls = clasificar('I',cfdis)
-    tabla = entablar(xmls)       
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla})
+    tabla = entablar(xmls)
+    hoy = datetime.date.today()
+    mes = hoy.month
+    anio = hoy.year
+    tabla = filtrarMes(tabla,mes,anio)
+    total = totalDelMes(tabla)
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total})
 
 def leerXMLE(request):
     usuario = User.objects.get(email=request.user.email)
     usuar = Usuario.objects.get(email=usuario.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
     xmls = clasificar('E',cfdis)
-    tabla = entablar(xmls)    
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla})
+    tabla = entablar(xmls)
+    hoy = datetime.date.today()
+    mes = hoy.month
+    anio = hoy.year
+    tabla = filtrarMes(tabla,mes,anio)
+    total = totalDelMes(tabla)
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total})
 
 def leerXMLP(request):
     usuario = User.objects.get(email=request.user.email)
@@ -113,21 +128,12 @@ def leerXMLP(request):
     cfdis = Factura.objects.filter(usuario=usuar.id)
     xmls = clasificar('P',cfdis)
     tabla = entablar(xmls)
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla})
-
-def FacturasDelMes(request):
-    usuario = User.objects.get(email=request.user.email)
-    usuar = Usuario.objects.get(email=usuario.id)
-    cfdis = Factura.objects.filter(usuario=usuar.id)
-    xmls = clasificar('N',cfdis)
-    tabla = entablar(xmls)
     hoy = datetime.date.today()
     mes = hoy.month
     anio = hoy.year
-    nombreMes = nombreDelMes(mes)
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/facturaDelMes.html',{'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total,'mes':nombreMes})
+    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total})
 
 def filtrarMes(tabla,mes,anio):
     facturaMes=[]
@@ -144,31 +150,3 @@ def totalDelMes(tabla):
     for renglon in tabla:
         total+=float(renglon[5])
     return total
-
-def nombreDelMes(mes):
-    mesNombre = ""
-    if mes == 1:
-        mesNombre="Enero"
-    elif mes == 2:
-        mesNombre="Febrero"
-    elif mes == 3:
-        mesNombre="Marzo"
-    elif mes == 4:
-        mesNombre="Abril"
-    elif mes == 5:
-        mesNombre="Mayo"
-    elif mes == 6:
-        mesNombre="Junio"
-    elif mes == 7:
-        mesNombre="Julio"
-    elif mes == 8:
-        mesNombre="Agosto"
-    elif mes == 9:
-        mesNombre="Septiembre"
-    elif mes == 10:
-        mesNombre="Octubre"
-    elif mes == 11:
-        mesNombre="Noviembre"
-    elif mes == 12:
-        mesNombre="Diciembre"
-    return mesNombre

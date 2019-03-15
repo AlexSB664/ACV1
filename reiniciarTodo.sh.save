@@ -1,0 +1,4 @@
+./limpia
+./actualizarBase.sh
+./iniciarBaseDeDatos.sh
+

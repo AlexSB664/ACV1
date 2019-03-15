@@ -34,8 +34,9 @@
                             <span id='message'></span>
   
                         </div>
-
-
+                        {% if total==0 %}
+                        <h1>No hay facturas en este mes</h1>
+                        {% else %}
                         <table class="table">
                         <thead class="thead-dark">
                         <tr>
@@ -66,6 +67,7 @@
                         	<th>{{total}}</th>
                         </tr>
                         </table>
+                        {% endif %}
 
                     </div>
             </form>            </div>

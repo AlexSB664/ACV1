@@ -5,7 +5,7 @@
 
 {% block content %}
     <main role="main" class="container">
-    	<div class="container body-content" style="margin-top: 100px;">
+        <div class="container body-content" style="margin-top: 100px;">
         <main role="main">
             
 
@@ -34,8 +34,9 @@
                             <span id='message'></span>
   
                         </div>
-
-
+                        {% if total == 0 %}
+                        <h1>No hay facturas en este mes</h1>
+                        {% else %}
                         <table class="table">
                         <thead class="thead-dark">
                         <tr>
@@ -56,7 +57,17 @@
                             {% endfor %}
                         </tr>
                         {% endfor %}
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total del Mes:</th>
+                            <th>{{total}}</th>
+                        </tr>
                         </table>
+                        {% endif %}
 
                     </div>
             </form>            </div>
@@ -74,5 +85,5 @@
 
     </main>
 
-</style></defs><text x="0" y="2" style="font-weight:bold;font-size:2pt;font-family:Arial, Helvetica, Open Sans, sans-serif">32x32</text></svg>
+</style></defs><text x="0" y="2" style="font-weight:bold;font-size:2pt;font-family:Arial, Helvetica, Open Sans, sans-serif"></text></svg>
 {% endblock %}
