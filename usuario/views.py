@@ -66,6 +66,12 @@ def entablar(xmls):
     tabla=[]
     for a in xmls:
         tablatemp = []
+        descargartmp = []
+        x = a.xml
+        descargartmp.append(x)
+        y = a.pdf
+        descargartmp.append(y)
+        tablatemp.append(descargartmp)
         b=minidom.parse(os.getcwd()+"/media/"+str(a.xml))
         lineas = b.getElementsByTagName("cfdi:Receptor")
         c=lineas[0].getAttribute("Rfc")
@@ -94,7 +100,7 @@ def leerXMLN(request):
     anio = hoy.year
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total})
+    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
 def leerXMLI(request):
     usuario = User.objects.get(email=request.user.email)
@@ -107,7 +113,7 @@ def leerXMLI(request):
     anio = hoy.year
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total})
+    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
 def leerXMLE(request):
     usuario = User.objects.get(email=request.user.email)
@@ -120,7 +126,7 @@ def leerXMLE(request):
     anio = hoy.year
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total})
+    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
 def leerXMLP(request):
     usuario = User.objects.get(email=request.user.email)
@@ -133,12 +139,12 @@ def leerXMLP(request):
     anio = hoy.year
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/documentosDB.html', {'documentos': xmls,'cfdis': cfdis,'tabla':tabla,'total':total})
+    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
 def filtrarMes(tabla,mes,anio):
     facturaMes=[]
     for renglon in tabla:
-        mesactual=datetime.datetime.strptime(renglon[2],"%Y-%m-%dT%H:%M:%S")
+        mesactual=datetime.datetime.strptime(renglon[3],"%Y-%m-%dT%H:%M:%S")
         if  mesactual.month == mes and mesactual.year == anio:
             facturaMes.append(renglon)
         else:

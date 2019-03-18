@@ -51,9 +51,13 @@
                         </thead>
                         {% for renglon in tabla %}
                         <tr>
-                            <th>Descargar</th>
                             {% for columna in renglon %}
+                            {% if forloop.first %}
+                            <th><a href="{{columna.0.url}}" download>Descargar XML</a>
+                            <a href="{{columna.1.url}}" download>Descargar PDF</a></th>
+                            {% else %}
                                 <th>{{columna}}</th>
+                            {% endif %}
                             {% endfor %}
                         </tr>
                         {% endfor %}
