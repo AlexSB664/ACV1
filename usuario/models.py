@@ -46,9 +46,9 @@ class Factura(models.Model):
     def filename(self):
         return os.path.basename(self.xml.name)
 
-    def clean_xml(self):
-        xml = self.cleaned_data.get("xml", False)
-        filetype = magic.from_buffer(xml.read())
-        if not "XML" in filetype:
-            raise ValidationError("File is not XML.")
-        return null
+#    def clean(self):
+#        xml = self.cleaned_data.get("xml", False)
+#        filetype = magic.from_buffer(xml.read())
+#        if not "XML" in filetype:
+#            raise ValidationError("File is not XML.")
+#        return self.cleaned_data 
