@@ -34,7 +34,7 @@ class Cliente(models.Model):
 		return self.RFC.nombre_completo
 
 def upload_to(self, filename):
-    return u'documentos/user_{0}/client_{1}/{2}'.format(self.contador.id,self.usuario.id, filename)
+    return u'protected/documentos/user_{0}/client_{1}/{2}'.format(self.contador.id,self.usuario.id, filename)
 
 class Factura(models.Model):
     subido_el = models.DateTimeField(auto_now_add=True)
