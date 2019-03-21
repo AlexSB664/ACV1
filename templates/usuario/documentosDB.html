@@ -4,41 +4,27 @@
   {% block menubar %}{% include "usuario/menu.html" %}{% endblock %}
 
 {% block content %}
-    <main role="main" class="container">
-        <div class="container body-content" style="margin-top: 100px;">
-        <main role="main">
-            
-
-
-<div class="container">
-    <div class="login-form col-md-12 offset-md-0" style="border-radius:3%;">
-        <h2 class="panel-title text-center">Archivos</h2>
-        <hr>
-        <h4 color="royalblue" class="text-center">mes de: {%  now "F" %}
-        </h4>
-
-        <div style="text-align:center">
-        <span id='message'></span>
-        </div>
-        
-            <div id="singup" class="container tab-pane  active show" style="border-top:1px solid #2196f3; border-bottom:1px solid #2196f3; border-left:1px solid #2196f3; border-right:1px solid #2196f3;">
-                <br>
-            <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div>
-                        
-                        <label></label>
-                        
-                        <div class="form-group">
-                            <h2></h2>
-                            <span id='message'></span>
-  
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Facturas del mes {%  now "F" %} de {% now 'Y' %} <small> Ayuda Contable</small></h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
                         </div>
+                        <div class="ibox-content">
                         {% if total == 0 %}
                         <h1>No hay facturas en este mes</h1>
                         {% else %}
+                        <div class="table-responsive">
                         <table class="table">
-                        <thead class="thead-dark">
+                        <thead>
                         <tr>
                             <th>Acciones</th>
                             <th>RFC Cliente</th> 
@@ -71,23 +57,13 @@
                             <th>{{total}}</th>
                         </tr>
                         </table>
+                        </div>
                         {% endif %}
 
+
+                        </div>
                     </div>
-            </form>            </div>
-     
-    </div>
-</div>
+                </div>
+            </div>
 
-        </main>
-    </div>
-
-    <!--  Scripts-->
-    <script src="{% static 'js/materialize.js' %}"></script>
-    <script src="{% static 'js/init.js' %}"></script>
-
-
-    </main>
-
-</style></defs><text x="0" y="2" style="font-weight:bold;font-size:2pt;font-family:Arial, Helvetica, Open Sans, sans-serif"></text></svg>
 {% endblock %}
