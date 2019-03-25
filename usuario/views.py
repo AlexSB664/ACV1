@@ -27,8 +27,15 @@ def login(request):
 def redirecionDeEspacio(request):
 	return render(request,'redirecion.html')
 
-def index3(request):    
-    return render(request,'usuario/index.html')
+def index3(request):
+    usuario = User.objects.get(email=request.user.email)
+    usuario = Usuario.objects.get(email=usuario.id)
+    firmo = None
+    if usuario.e_firma_key == "" and usuario.e_firma_cer == "":
+        firmo = False
+    else:
+        firmo = True
+    return render(request,'usuario/index.html',{'firmo': firmo})
 
 def archivosGeneral(request):
     usuario = User.objects.get(email=request.user.email)

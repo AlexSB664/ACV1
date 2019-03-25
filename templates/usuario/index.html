@@ -2,36 +2,46 @@
 {% load static %}
   {% block title %} Inicio {% endblock %}
   {% block menubar %}{% include "usuario/menu.html" %}{% endblock %}
-
+{% block archivos %}
+<link href="{% static 'css/plugins/jasny/jasny-bootstrap.min.css' %}" rel="stylesheet">
+{% endblock %}
 {% block content %}
-    <main role="main" class="container">
-      <div class="container body-content" style="margin-top: 100px;">
-        <main role="main">
-            
-
-
-<div class="container">
-    <div class="login-form col-md-12 offset-md-0" style="border-radius:3%;">
-        <h2 class="panel-title text-center">Bienvenido {{user.nombre_completo}}</h2>
-        <hr>
-        <div style="text-align:center">
-        <span id='message'></span>
-        </div>
-        
-    </div>
-</div>
-
-        </main>
-    </div>
-
-    <!--  Scripts-->
-    <script src="{% static 'js/materialize.js' %}"></script>
-    <script src="{% static 'js/init.js' %}"></script>
-
-
-    </main>
-
-</style></defs><text x="0" y="2" style="font-weight:bold;font-size:2pt;font-family:Arial, Helvetica, Open Sans, sans-serif"></text></svg>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Firma de Contrato <small> Ayuda Contable</small></h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                        {% if firmo %}
+                        <h5>Bienvenido {{user.nombre_completo}}</h5>
+                        {% else %}
+                        <h5>Es necesario su firma</h5>
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.key</span>
+                            <span class="fileinput-exists"></span><input type="file" name="..."/></span>
+                            <span class="fileinput-filename"></span>
+                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
+                        </div> 
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.cer</span>
+                            <span class="fileinput-exists"></span><input type="file" name="..."/></span>
+                            <span class="fileinput-filename"></span>
+                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
+                        </div> 
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
 {% endblock %}
 {% block scripts %}
     <script>

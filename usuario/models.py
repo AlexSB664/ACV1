@@ -5,6 +5,8 @@ from superadmin.models import User
 from administrador.models import Administrador
 import os
 
+def upload_e_firma(self, filename):
+    return u'documentos/client_{0}/{1}'.format(self.usuario.id, filename)
 
 class Usuario(models.Model):
     email = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -12,7 +14,8 @@ class Usuario(models.Model):
     tipo_persona = models.CharField(max_length=15,null=True)
     razon_social = models.CharField(max_length=100,null=True,unique=True)
     direccion_fiscal = models.CharField(max_length=125, null=True)
-    e_firma = models.FileField(upload_to='profiles',null=True)
+    e_firma_key = models.FileField(upload_to=upload_e_firma,null=True)
+    e_firma_cer = models.FileField(upload_to=upload_e_firma,null=True)
     contador = models.ForeignKey(Administrador, on_delete=models.CASCADE, blank=True, null=True,related_name="contador_personal")    
     def __str__(self):
         return self.email.nombre_completo
@@ -34,7 +37,7 @@ class Cliente(models.Model):
 		return self.RFC.nombre_completo
 
 def upload_to(self, filename):
-    return u'protected/documentos/user_{0}/client_{1}/{2}'.format(self.contador.id,self.usuario.id, filename)
+    return u'documentos/user_{0}/client_{1}/{2}'.format(self.contador.id,self.usuario.id, filename)
 
 class Factura(models.Model):
     subido_el = models.DateTimeField(auto_now_add=True)
