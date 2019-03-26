@@ -97,8 +97,7 @@ def entablar(xmls):
     return tabla
 
 def leerXMLN(request):
-    usuario = User.objects.get(email=request.user.email)
-    usuar = Usuario.objects.get(email=usuario.id)
+    usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
     xmls = clasificar('N',cfdis)
     tabla = entablar(xmls)
@@ -110,8 +109,7 @@ def leerXMLN(request):
     return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
 def leerXMLI(request):
-    usuario = User.objects.get(email=request.user.email)
-    usuar = Usuario.objects.get(email=usuario.id)
+    usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
     xmls = clasificar('I',cfdis)
     tabla = entablar(xmls)
@@ -123,8 +121,7 @@ def leerXMLI(request):
     return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
 def leerXMLE(request):
-    usuario = User.objects.get(email=request.user.email)
-    usuar = Usuario.objects.get(email=usuario.id)
+    usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
     xmls = clasificar('E',cfdis)
     tabla = entablar(xmls)
@@ -136,8 +133,7 @@ def leerXMLE(request):
     return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
 def leerXMLP(request):
-    usuario = User.objects.get(email=request.user.email)
-    usuar = Usuario.objects.get(email=usuario.id)
+    usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
     xmls = clasificar('P',cfdis)
     tabla = entablar(xmls)

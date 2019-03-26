@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     fecha_nacimiento = models.DateTimeField(null=True)
     direccion = models.CharField(max_length=200, null=True)
     genero = models.CharField(max_length=65,null=True)
-    foto_perfil = models.ImageField(upload_to='profiles',null=True)
+    foto_perfil = models.ImageField(upload_to='profiles',null=True,default='default.jpeg')
     agregado = models.DateTimeField(default=datetime.now, blank=True)
     
     is_staff = models.BooleanField(

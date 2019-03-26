@@ -3,7 +3,6 @@ from django.db import models
 # Create your models here.
 from superadmin.models import User
 #from usuario.models import Usuario
-import os
 
 def upload_e_firma(self, filename):
     return u'documentos/client_{0}/{1}'.format(self.usuario.id, filename)
