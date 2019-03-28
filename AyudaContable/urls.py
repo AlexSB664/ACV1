@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^usuario/documentosE/$',usuario.views.leerXMLE,name='vistaE'),
     url(r'^usuario/documentosI/$',usuario.views.leerXMLI,name='vistaI'),
     url(r'^usuario/documentosP/$',usuario.views.leerXMLP,name='vistaP'),
+    url(r'^usuario/firma/$',usuario.views.firmaContrato,name='firmaUsuario'),
     url(r'^logout$', logout_then_login, name='logout' ),
     url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], superadmin.views.protected_serve, {'document_root': settings.MEDIA_ROOT}),
 ]

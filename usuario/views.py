@@ -2,8 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from superadmin.models import User
-from usuario.models import Factura
-from .models import Usuario
+from usuario.models import Factura, Usuario
 from xml.dom import minidom
 import datetime
 import os
@@ -20,9 +19,27 @@ def login(request):
             return redirect('redi')
         else:
             # Show an error page
-            return render(request,'login.html')
+            mensaje = "Error credenciales no validas"
+            return render(request,'login.html',{'mensaje':mensaje})
     else:
         return render(request,'login.html')
+
+def firmaContrato(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        key = request.POST['key']
+        cer = request.POST['cer']
+        vacio="entro en POST"
+        if cer == "" and key == "":
+            vacio="no se capturo los archivos"
+        else:
+            usuario = Usuario.objects.get(email=request.user.id)
+            usuario.e_firma_key=key
+            usuario.e_firma_cer=cer
+            usuario.save(update_fields=["e_firma_key","e_firma_cer"])
+            vacio="archivos cargados"+request.user.id+key
+    else:
+        vacio="entro en nada"
+    return render(request,'usuario/firma.html',{'vacio':vacio})
 
 def redirecionDeEspacio(request):
 	return render(request,'redirecion.html')

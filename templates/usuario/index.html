@@ -77,10 +77,10 @@ chart.render();
 {% block content %}
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
+                    <div class="ibox float-e-margins col-lg-12">
+                        <div class="ibox-title col-lg-12">
                             <h5>Firma de Contrato <small> Ayuda Contable</small></h5>
-                            <div class="ibox-tools">
+                            <div class="ibox-tools col-lg-12">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
@@ -94,27 +94,32 @@ chart.render();
                         <h5>Bienvenido {{user.nombre_completo}}</h5>
                         {% else %}
                         <h5>Es necesario su firma</h5>
-                        <div>
-                        <object data="/media/Contrato.pdf" type="application/pdf" width="300" height="200">
+                        <div class="col-lg-12">
+                        <object data="/media/Contrato.pdf" type="application/pdf" class="col-lg-12"  height="200">
                             alt : <a href="/media/Contrato.pdf">Contrato.pdf</a>
                         </object>
                         <br>
                         <a href="/media/Contrato.pdf"> Ver contrato en una ventana nueva</a>
                         <br>
-                        <a href="/media/Contrato.pdf" download=""> Descargar contrato</a>
+                        <a href="/media/Contrato.pdf" download> Descargar contrato</a>
                         </div>
+                        <form class="m-t" role="form"  method="POST" action="{% url 'firmaUsuario' %}">
+                    {% csrf_token %}
+                        <input type="hidden" name="id" id="id" value="{{user.id}}">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.key</span>
-                            <span class="fileinput-exists"></span><input type="file" name="..."/></span>
+                            <span class="fileinput-exists"></span><input type="file" name="key" id="key"/></span>
                             <span class="fileinput-filename"></span>
                             <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
                         </div> 
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.cer</span>
-                            <span class="fileinput-exists"></span><input type="file" name="..."/></span>
+                            <span class="fileinput-exists"></span><input type="file" name="cer" id="cer"/></span>
                             <span class="fileinput-filename"></span>
                             <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
-                        </div> 
+                        </div>
+                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Firmar</strong></button>
+                        </form>
                         {% endif %}
                         </div>
                     </div>
