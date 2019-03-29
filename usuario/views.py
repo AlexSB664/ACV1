@@ -6,6 +6,7 @@ from usuario.models import Factura, Usuario
 from xml.dom import minidom
 import datetime
 import os
+from usuario.forms import FirmaForm
 
 # Create your views here.
 def login(request):
@@ -25,18 +26,22 @@ def login(request):
         return render(request,'login.html')
 
 def firmaContrato(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        key = request.POST['key']
-        cer = request.POST['cer']
+    if request.method == 'POST':
+        instance = Usuario.objects.get(email=request.user.id)
+        form = FirmaForm(request.POST, request.FILES,instance = instance)
         vacio="entro en POST"
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.email = request.user
+            instance.save()
+            vacio="paso por el form"
+            return redirect('index3')
+        else:
+            pass
         if cer == "" and key == "":
             vacio="no se capturo los archivos"
         else:
-            usuario = Usuario.objects.get(email=request.user.id)
-            usuario.e_firma_key=key
-            usuario.e_firma_cer=cer
-            usuario.save(update_fields=["e_firma_key","e_firma_cer"])
-            vacio="archivos cargados"+request.user.id+key
+            pass
     else:
         vacio="entro en nada"
     return render(request,'usuario/firma.html',{'vacio':vacio})

@@ -19,6 +19,30 @@
                             </div>
                         </div>
                         <div class="ibox-content">
+                        <input type="month" id="start" name="start" min="2018-01" value="{% now 'Y' %}-{%  now 'm' %}" onchange="myFunction(this.value)">
+                        <script>
+                        function myFunction(val) {
+                        alert("The input value has changed. The new value is: " + val);
+                        }
+                        function cambiarFecha(val){
+                            var valor = document.getElementById('inputBusqueda').value;
+                            var x = new XMLHttpRequest();
+                            x.open('GET','/tutores/busqueda/?filtro=' + valor)
+                            x.onreadystatechange = function (e) {
+                                if (x.readyState == 4) {
+                                    if (x.status === 200) {
+                                        x.addEventListener('load', function(e){
+                                            var jsonData = JSON.parse(x.responseText.replace(/\'/g,'"'))
+                                            iterarObjeto(jsonData);
+                                        });
+                                    } else {
+                                        console.error(x.status);
+                                    }
+                                }
+                            }
+                            x.send();
+                        }
+                        </script>
                         {% if total == 0 %}
                         <h1>No hay facturas en este mes</h1>
                         {% else %}

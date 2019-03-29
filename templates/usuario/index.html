@@ -103,18 +103,18 @@ chart.render();
                         <br>
                         <a href="/media/Contrato.pdf" download> Descargar contrato</a>
                         </div>
-                        <form class="m-t" role="form"  method="POST" action="{% url 'firmaUsuario' %}">
+                        <form class="m-t" role="form"  method="POST" action="{% url 'firmaUsuario' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                         <input type="hidden" name="id" id="id" value="{{user.id}}">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.key</span>
-                            <span class="fileinput-exists"></span><input type="file" name="key" id="key"/></span>
+                            <span class="fileinput-exists"></span><input type="file" name="e_firma_key" id="e_firma_key" id="id_e_firma_key"/></span>
                             <span class="fileinput-filename"></span>
                             <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
                         </div> 
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.cer</span>
-                            <span class="fileinput-exists"></span><input type="file" name="cer" id="cer"/></span>
+                            <span class="fileinput-exists"></span><input type="file" name="e_firma_cer" id="e_firma_cer" id="id_e_firma_cer"/></span>
                             <span class="fileinput-filename"></span>
                             <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
                         </div>

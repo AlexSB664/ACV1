@@ -6,7 +6,7 @@ from administrador.models import Administrador
 import os
 
 def upload_e_firma(self, filename):
-    return u'documentos/client_{0}/{1}'.format(self.usuario.id, filename)
+    return u'documentos/client_{0}/{1}'.format(self.email.id, filename)
 
 class Usuario(models.Model):
     email = models.OneToOneField(User, on_delete=models.CASCADE)
