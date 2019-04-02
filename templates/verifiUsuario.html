@@ -1,0 +1,4 @@
+{% if perms.administrador.is_user %}
+{% else %}
+<meta http-equiv="refresh" content="0; URL={% url 'redi' %}" /> 
+{% endif %}

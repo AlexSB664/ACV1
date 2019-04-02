@@ -11,6 +11,7 @@ from django.views.static import serve
 from django.conf import settings
 
 # Create your views here.
+@login_required
 def index0(request):    
 	return render(request,'superadmin/index1.html')
 
@@ -19,6 +20,7 @@ class altaAdmin(generic.FormView):
     form_class = AdminForm
     success_url = reverse_lazy('index0')
     
+    @login_required
     def form_valid(self, form):
         Usr = form.save()
         if form.cleaned_data['puesto'] == 'Contador Ejecutivo':
@@ -36,11 +38,13 @@ class altaAdmin(generic.FormView):
         adminis.save()
         return super(altaAdmin,self).form_valid(form)
 
+
 class altaUsuario(generic.FormView):
     template_name = 'superadmin/altaUsuario.html'
     form_class = UsuarioForm
     success_url = reverse_lazy('index0')
-    
+
+    @login_required    
     def form_valid(self, form):
         Usr = form.save()
         prm = Permission.objects.get(codename='is_user')
@@ -54,21 +58,6 @@ class altaUsuario(generic.FormView):
         usuario.e_firma = form.cleaned_data['e_firma']
         usuario.save()
         return super(altaUsuario,self).form_valid(form)
-
-class login(generic.FormView):
-    template_name='login.html'
-    form_class = LoginForm
-    success_url = reverse_lazy('index0')
-
-    def form_valid(self,form):
-        usuario = form.cleaned_data['correo']
-        contra = form.cleaned_data['password']
-        user = auth.authenticate(email=usuario,password=contra)
-        if user is not None:
-            auth.login(request,user)
-            return HttpResponseRedirect('index0')
-        else:
-            return render(request,'login.html')
 
 @login_required
 def protected_serve(request, path, document_root=None, show_indexes=False):

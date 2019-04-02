@@ -4,9 +4,11 @@ from django.http import HttpResponseRedirect
 from superadmin.models import User
 from usuario.models import Factura, Usuario
 from xml.dom import minidom
+from django.core import serializers
 import datetime
 import os
 from usuario.forms import FirmaForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login(request):
@@ -25,6 +27,7 @@ def login(request):
     else:
         return render(request,'login.html')
 
+@login_required
 def firmaContrato(request):
     if request.method == 'POST':
         instance = Usuario.objects.get(email=request.user.id)
@@ -46,9 +49,11 @@ def firmaContrato(request):
         vacio="entro en nada"
     return render(request,'usuario/firma.html',{'vacio':vacio})
 
+@login_required
 def redirecionDeEspacio(request):
 	return render(request,'redirecion.html')
 
+@login_required
 def index3(request):
     usuario = User.objects.get(email=request.user.email)
     usuario = Usuario.objects.get(email=usuario.id)
@@ -59,12 +64,14 @@ def index3(request):
         firmo = True
     return render(request,'usuario/index.html',{'firmo': firmo})
 
+@login_required
 def archivosGeneral(request):
     usuario = User.objects.get(email=request.user.email)
     usuar = Usuario.objects.get(email=usuario.id)
     archivos = Factura.objects.filter(contador=usuar.id)
     return render(request,'usuario/documentosDB.html', {'documentos': archivos})
 
+@login_required
 def leerXML(request):
     xmlar = minidom.parse(os.getcwd()+"/media/documentos/user_1/EJEMPLO_NOMINA_1.xml")
     lineas = xmlar.getElementsByTagName("cfdi:Comprobante")
@@ -118,6 +125,7 @@ def entablar(xmls):
         tabla.append(tablatemp)
     return tabla
 
+@login_required
 def leerXMLN(request):
     usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
@@ -130,6 +138,7 @@ def leerXMLN(request):
     total = totalDelMes(tabla)
     return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
+@login_required
 def leerXMLI(request):
     usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
@@ -142,6 +151,7 @@ def leerXMLI(request):
     total = totalDelMes(tabla)
     return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
+@login_required
 def leerXMLE(request):
     usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
@@ -154,6 +164,7 @@ def leerXMLE(request):
     total = totalDelMes(tabla)
     return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
 
+@login_required
 def leerXMLP(request):
     usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
@@ -181,3 +192,14 @@ def totalDelMes(tabla):
     for renglon in tabla:
         total+=float(renglon[5])
     return total
+
+def busquedaTurores(request):
+    if  request.method == 'GET':
+        datos = []
+        filtro = request.GET['filtro']
+        data =  Tutor.objects.select_related().filter(tut_apellidos__contains = filtro)
+        for dt in data:
+            datos.append({"Usuario": str(dt.tut_nombre.username), 'Apellidos': str(dt.tut_apellidos), 'Numero':str(dt.tut_numero), 'Descripcion':str(dt.tut_descripcion)})
+    else:
+        datos = "No se ah encontrado nada"
+    return HttpResponse(str(datos))

@@ -8,11 +8,14 @@ from superadmin.models import User
 from django.conf import settings
 from usuario.models import Usuario
 import os
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def index1(request):    
 	return render(request,'administrador/index.html')
 
+@login_required
 def subidaXML(request):
 	if request.method == 'POST':
 		form = ArchivoForm1(request.POST, request.FILES)
@@ -28,6 +31,7 @@ def subidaXML(request):
 			'admin': admin
 		})
 
+@login_required
 def archivos(request):
 	usuario = User.objects.get(email=request.user.email)
 	admin = Administrador.objects.get(email=usuario.id)
@@ -36,12 +40,14 @@ def archivos(request):
 	file_list =os.listdir(path)
 	return render(request,'administrador/documentos.html', {'documentos': file_list,'url':url})
 
+@login_required
 def archivosDB(request):
 	usuario = User.objects.get(email=request.user.email)
 	admin = Administrador.objects.get(email=usuario.id)
 	archivos = Factura.objects.filter(contador=admin.id)
 	return render(request,'administrador/documentosDB.html', {'documentos': archivos})
 
+@login_required
 def usuariosACargo(request):
 	usuario = User.objects.get(email=request.user.email)
 	admin = Administrador.objects.get(email=usuario.id)

@@ -4,6 +4,7 @@ from django.db import models
 from superadmin.models import User
 from administrador.models import Administrador
 import os
+from django_cryptography.fields import encrypt
 
 def upload_e_firma(self, filename):
     return u'documentos/client_{0}/{1}'.format(self.email.id, filename)
@@ -16,6 +17,7 @@ class Usuario(models.Model):
     direccion_fiscal = models.CharField(max_length=125, null=True)
     e_firma_key = models.FileField(upload_to=upload_e_firma,null=True)
     e_firma_cer = models.FileField(upload_to=upload_e_firma,null=True)
+    clave_privada = encrypt(models.CharField(max_length=50))
     contador = models.ForeignKey(Administrador, on_delete=models.CASCADE, blank=True, null=True,related_name="contador_personal")    
     def __str__(self):
         return self.email.nombre_completo

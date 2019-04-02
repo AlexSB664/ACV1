@@ -27,6 +27,7 @@
                         function cambiarFecha(val){
                             var valor = document.getElementById('inputBusqueda').value;
                             var x = new XMLHttpRequest();
+                            //url(r'^tutores/busqueda',busquedaTurores,name='filtroTutores'),
                             x.open('GET','/tutores/busqueda/?filtro=' + valor)
                             x.onreadystatechange = function (e) {
                                 if (x.readyState == 4) {
