@@ -1,2 +1,6 @@
 pip3 install cryptography
 pip3 install django-cryptography
+pip3 install mysqlclient
+pip3 install django
+pip3 install django-debug-toolbar
+pip3 install Pillow

@@ -3,7 +3,27 @@
   {% block title %} Inicio {% endblock %}
   {% block menubar %}{% include "usuario/menu.html" %}{% endblock %}
 {% block archivos %}
-<link href="{% static 'css/plugins/jasny/jasny-bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/plugins/jasny/jasny-bootstrap.min.css' %}" rel="stylesheet"> 
+<script>
+function ShowCIEC(){
+    var x = document.getElementById("ciec");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+</script>
+<script>
+function ShowPass(){
+    var x = document.getElementById("clave_privada");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+</script>
 <script>
 window.onload = function () {
 
@@ -91,7 +111,9 @@ chart.render();
                         </div>
                         <div class="ibox-content col-lg-12">
                         {% if firmo %}
-                        <h5>Bienvenido {{user.nombre_completo}}</h5>
+                        <h5>Bienvenido {{user.nombre_completo}}</h5><br>
+                        <p>Nos agrada tenerte de vuelta
+                        </p>
                         {% else %}
                         <h5>Es necesario su firma</h5>
                         <div class="col-lg-12">
@@ -104,21 +126,37 @@ chart.render();
                         <a href="/media/Contrato.pdf" download> Descargar contrato</a>
                         </div>
                         <form class="m-t" role="form"  method="POST" action="{% url 'firmaUsuario' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
+                        {% csrf_token %}
                         <input type="hidden" name="id" id="id" value="{{user.id}}">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.key</span>
-                            <span class="fileinput-exists"></span><input type="file" name="e_firma_key" id="e_firma_key" id="id_e_firma_key"/></span>
-                            <span class="fileinput-filename"></span>
-                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
-                        </div> 
-                        <div class="fileinput fileinput-new" data-provides="fileinput">
                             <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.cer</span>
-                            <span class="fileinput-exists"></span><input type="file" name="e_firma_cer" id="e_firma_cer" id="id_e_firma_cer"/></span>
+                            <span class="fileinput-exists"></span><input type="file" name="e_firma_cer" id="e_firma_cer" id="id_e_firma_cer" accept=".cer" /></span>
                             <span class="fileinput-filename"></span>
                             <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
                         </div>
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <span class="btn btn-default btn-file"><span class="fileinput-new">Cargar e firma.key</span>
+                            <span class="fileinput-exists"></span><input type="file" name="e_firma_key" id="e_firma_key" id="id_e_firma_key" accept=".key"/></span>
+                            <span class="fileinput-filename"></span>
+                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
+                        </div> 
+                        <div class="form-group">
+                            <label>Clave Privada:</label> <i class="fa fa-question-circle-o" aria-hidden="true" title="Esta contraseña es la que corresponde la clave privada .key"></i>
+                            <input type="password" placeholder="Ingrese clave" name="clave_privada" id="clave_privada" class="form-control"><input type="checkbox" onclick="ShowPass()">Mostrar Clave
+                        </div>
                         <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Firmar</strong></button>
+                        </form>
+                        {% endif %}
+                        {% if falta_ciec %}
+                        <form class="m-t" role="form"  method="POST" action="{% url 'firmaCiec' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                        <p>Estimado Usuario nos ayuda aun mas con su clave CIEC para seguir generando las facturas de una forma facil.</p>
+                        <p>Atte: Ayuda Contable</p>
+                            <label>CIEC:</label> <i class="fa fa-question-circle-o" aria-hidden="true" title="Esta contraseña es la misma de su CIEC o CIEC fortalecida" ></i>
+                            <input type="password" placeholder="Ingrese clave" name="ciec" id="ciec" class="form-control"><input type="checkbox" onclick="ShowCIEC()">Mostrar Clave
+                        </div>
+                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Firmar con CIEC</strong></button>
                         </form>
                         {% endif %}
                         </div>

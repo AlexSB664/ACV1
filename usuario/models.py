@@ -18,6 +18,7 @@ class Usuario(models.Model):
     e_firma_key = models.FileField(upload_to=upload_e_firma,null=True)
     e_firma_cer = models.FileField(upload_to=upload_e_firma,null=True)
     clave_privada = encrypt(models.CharField(max_length=50))
+    ciec = encrypt(models.CharField(max_length=50))
     contador = models.ForeignKey(Administrador, on_delete=models.CASCADE, blank=True, null=True,related_name="contador_personal")    
     def __str__(self):
         return self.email.nombre_completo

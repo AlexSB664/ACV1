@@ -7,7 +7,7 @@ from xml.dom import minidom
 from django.core import serializers
 import datetime
 import os
-from usuario.forms import FirmaForm
+from usuario.forms import FirmaForm, FirmaCiec
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -41,13 +41,25 @@ def firmaContrato(request):
             return redirect('index3')
         else:
             pass
-        if cer == "" and key == "":
-            vacio="no se capturo los archivos"
+    else:
+        vacio="entro en nada"
+    return render(request,'usuario/index.html',{'vacio':vacio})
+
+@login_required
+def firmaCiec(request):
+    if request.method == 'POST':
+        instance = Usuario.objects.get(email=request.user.id)
+        form = FirmaCiec(request.POST, request.FILES,instance = instance)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.email = request.user
+            instance.save()
+            return redirect('index3')
         else:
             pass
     else:
         vacio="entro en nada"
-    return render(request,'usuario/firma.html',{'vacio':vacio})
+    return render(request,'usuario/index.html',{'vacio':vacio})
 
 @login_required
 def redirecionDeEspacio(request):
@@ -57,12 +69,17 @@ def redirecionDeEspacio(request):
 def index3(request):
     usuario = User.objects.get(email=request.user.email)
     usuario = Usuario.objects.get(email=usuario.id)
+    falta_ciec = None
     firmo = None
-    if usuario.e_firma_key == "" and usuario.e_firma_cer == "":
+    if usuario.e_firma_key == "" and usuario.e_firma_cer == "" and usuario.clave_privada ==  "":
         firmo = False
     else:
         firmo = True
-    return render(request,'usuario/index.html',{'firmo': firmo})
+    if firmo and usuario.ciec == "":
+        falta_ciec = True
+    else:
+        falta_ciec = False
+    return render(request,'usuario/index.html',{'firmo': firmo,'falta_ciec':falta_ciec})
 
 @login_required
 def archivosGeneral(request):
