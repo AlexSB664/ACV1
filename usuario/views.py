@@ -9,6 +9,7 @@ import datetime
 import os
 from usuario.forms import FirmaForm, FirmaCiec
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponse
 
 # Create your views here.
 def login(request):
@@ -89,18 +90,26 @@ def archivosGeneral(request):
     return render(request,'usuario/documentosDB.html', {'documentos': archivos})
 
 @login_required
-def leerXML(request):
-    xmlar = minidom.parse(os.getcwd()+"/media/documentos/user_1/EJEMPLO_NOMINA_1.xml")
-    lineas = xmlar.getElementsByTagName("cfdi:Comprobante")
-    for linea in lineas:
-        print(linea.getAttribute("TipoDeComprobante"))
-    xmldoc = minidom.parse('synchro.xml')
-    readbitlist = xmldoc.getElementsByTagName('readbit')
-    values = []
-    for s in readbitlist :
-        x = s.attributes['bit'].value
-        values.append(x)
-    return render(request,{'values': values})
+def leerXMLScript(request):
+    datos = []
+    if request.method == 'GET':
+        fecha = request.GET['fecha']
+        tipo = request.GET['tipo']
+        fecha = datetime.datetime.strptime(fecha,"%Y-%m")
+        anio = fecha.year
+        mes = fecha.month
+        usuar = Usuario.objects.get(email=request.user.id)
+        cfdis = Factura.objects.filter(usuario=usuar.id)
+        xmls = clasificar(tipo,cfdis)
+        tabla = entablar(xmls)
+        tabla = filtrarMes(tabla,mes,anio)
+        total = totalDelMes(tabla)
+        for registros in tabla:
+            datos.append({"RFC": str(registros[1]), 'Nombre': str(registros[2]), 'Fecha':str(registros[3]), 'Vigente':str(registros[4]), 'subtotal':str(registros[5]), 'total':str(registros[6])})
+        tabla = serializers.serialize('json',datos)
+        return HttpResponse(str(tabla))
+    else:
+        pass
 
 def clasificar(tipo,cfdis):
     documentos=[]
@@ -112,11 +121,11 @@ def clasificar(tipo,cfdis):
             if z == tipo:
                 documentos.append(x)
             else:
-                break
+                pass
     return documentos
 
 def entablar(xmls):
-    tabla=[]
+    tabla = []
     for a in xmls:
         tablatemp = []
         descargartmp = []
@@ -144,55 +153,59 @@ def entablar(xmls):
 
 @login_required
 def leerXMLN(request):
+    tipo = 'N'
     usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
-    xmls = clasificar('N',cfdis)
+    xmls = clasificar(tipo,cfdis)
     tabla = entablar(xmls)
     hoy = datetime.date.today()
     mes = hoy.month
     anio = hoy.year
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
+    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total,'tipo':tipo})
 
 @login_required
 def leerXMLI(request):
+    tipo = 'I'
     usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
-    xmls = clasificar('I',cfdis)
+    xmls = clasificar(tipo,cfdis)
     tabla = entablar(xmls)
     hoy = datetime.date.today()
     mes = hoy.month
     anio = hoy.year
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
+    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total,'tipo':tipo})
 
 @login_required
 def leerXMLE(request):
+    tipo = 'E'
     usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
-    xmls = clasificar('E',cfdis)
+    xmls = clasificar(tipo,cfdis)
     tabla = entablar(xmls)
     hoy = datetime.date.today()
     mes = hoy.month
     anio = hoy.year
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
+    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total,'tipo':tipo})
 
 @login_required
 def leerXMLP(request):
+    tipo = 'P'
     usuar = Usuario.objects.get(email=request.user.id)
     cfdis = Factura.objects.filter(usuario=usuar.id)
-    xmls = clasificar('P',cfdis)
+    xmls = clasificar(tipo,cfdis)
     tabla = entablar(xmls)
     hoy = datetime.date.today()
     mes = hoy.month
     anio = hoy.year
     tabla = filtrarMes(tabla,mes,anio)
     total = totalDelMes(tabla)
-    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total})
+    return render(request,'usuario/documentosDB.html', {'tabla':tabla,'total':total,'tipo':tipo})
 
 def filtrarMes(tabla,mes,anio):
     facturaMes=[]
@@ -201,7 +214,7 @@ def filtrarMes(tabla,mes,anio):
         if  mesactual.month == mes and mesactual.year == anio:
             facturaMes.append(renglon)
         else:
-            break
+            pass
     return facturaMes
 
 def totalDelMes(tabla):

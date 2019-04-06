@@ -4,6 +4,49 @@
   {% block menubar %}{% include "usuario/menu.html" %}{% endblock %}
 
 {% block content %}
+<script>
+    function myFunction(val) {
+        alert("The input value has changed. The new value is: " + val);
+    }
+</script>
+<script>
+    function cambiarFecha(val){
+        var valor = document.getElementById('inputBusqueda').value;
+        var tipo = document.getElementById('tipo').value;
+        alert("The input value has changed. The new value is: " + valor + tipo);
+        var x = new XMLHttpRequest();
+        x.open('GET',"{% url 'vistaScript' %}?fecha="+val+"&tipo="+tipo)
+        x.onreadystatechange = function (e) {
+            if (x.readyState == 4) {
+                if (x.status === 200) {
+                    x.addEventListener('load', function(e){
+                        var jsonData = JSON.parse(x.responseText.replace(/\'/g,'"'))
+                        //iterarObjeto(jsonData);
+                        iterarTabla(jsonData);
+                    });
+                } 
+                else{
+                    console.error(x.status);
+                    }
+            }
+        }
+        x.send();
+    }
+
+function iterarTabla(obj){
+    document.getElementById('tablaFactura').children[1].innerHTML = '';
+    for(i = 0; i < obj.length; i++){
+
+        var span = validar(obj[i].Usuario)
+        var tr = document.createElement('tr');
+        tr.innerHTML ='<td>' + obj[i].Usuario + '</td>'+
+            '<td>' + obj[i].Apellidos + '</td>'+
+            '<td '+ span +'</td>';
+        document.getElementById('tablaFactura').children[1].appendChild(tr);
+    }
+}  
+</script>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
@@ -19,36 +62,13 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                        <input type="month" id="start" name="start" min="2018-01" value="{% now 'Y' %}-{%  now 'm' %}" onchange="myFunction(this.value)">
-                        <script>
-                        function myFunction(val) {
-                        alert("The input value has changed. The new value is: " + val);
-                        }
-                        function cambiarFecha(val){
-                            var valor = document.getElementById('inputBusqueda').value;
-                            var x = new XMLHttpRequest();
-                            //url(r'^tutores/busqueda',busquedaTurores,name='filtroTutores'),
-                            x.open('GET','/tutores/busqueda/?filtro=' + valor)
-                            x.onreadystatechange = function (e) {
-                                if (x.readyState == 4) {
-                                    if (x.status === 200) {
-                                        x.addEventListener('load', function(e){
-                                            var jsonData = JSON.parse(x.responseText.replace(/\'/g,'"'))
-                                            iterarObjeto(jsonData);
-                                        });
-                                    } else {
-                                        console.error(x.status);
-                                    }
-                                }
-                            }
-                            x.send();
-                        }
-                        </script>
+                        <input type="month" id="inputBusqueda" name="inputBusqueda" min="2018-01" value="{% now 'Y' %}-{%  now 'm' %}" onchange="cambiarFecha(this.value)">
+                        <input type="hidden" name="tipo" id="tipo" value="{{tipo}}">
                         {% if total == 0 %}
                         <h1>No hay facturas en este mes</h1>
                         {% else %}
                         <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="tablaFactura">
                         <thead>
                         <tr>
                             <th>Acciones</th>
