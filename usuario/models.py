@@ -48,6 +48,11 @@ class Factura(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, blank=True, null=True,related_name="FDI")
     xml = models.FileField(upload_to=upload_to)
     pdf = models.FileField(upload_to=upload_to)
+    fecha = models.DateTimeField(null=True)#format='%Y-%m',input_formats=['%Y-%m'], null=True)
+    tipo = models.CharField(max_length=1,null=True)
+    RFC = models.CharField(max_length=14,null=True)
+    sub_total = models.FloatField(null=True)
+    total = models.FloatField(null=True)
 
     def filename(self):
         return os.path.basename(self.xml.name)

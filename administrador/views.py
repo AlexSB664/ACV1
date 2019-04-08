@@ -9,18 +9,32 @@ from django.conf import settings
 from usuario.models import Usuario
 import os
 from django.contrib.auth.decorators import login_required
+from xml.dom import minidom
+import datetime
 # Create your views here.
 
 @login_required
 def index1(request):    
 	return render(request,'administrador/index.html')
 
+def acomodar(factura):
+	lectura= minidom.parse(os.getcwd()+"/media/"+str(factura.xml))
+	lineas = lectura.getElementsByTagName("cfdi:Comprobante")
+	tipoXML = lineas[0].getAttribute("TipoDeComprobante")
+	factura.tipo = tipoXML
+	fechaXML = lineas[0].getAttribute("Fecha")
+	fechaXML=datetime.datetime.strptime(fechaXML,"%Y-%m-%dT%H:%M:%S")
+	factura.fecha = fechaXML
+	factura.save()
+
 @login_required
 def subidaXML(request):
 	if request.method == 'POST':
 		form = ArchivoForm1(request.POST, request.FILES)
 		if form.is_valid():
-			form.save()
+			archivo = form.save(commit=False)
+			archivo.save()
+			acomodar(archivo)
 		return redirect('vistaDocumentos')
 	else:
 		form = ArchivoForm1() 
