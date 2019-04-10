@@ -99,14 +99,15 @@ def leerXMLScript(request):
         anio = fecha.year
         mes = fecha.month
         usuar = Usuario.objects.get(email=request.user.id)
-        cfdis = Factura.objects.filter(usuario=usuar.id)
-        xmls = clasificar(tipo,cfdis)
-        tabla = entablar(xmls)
-        tabla = filtrarMes(tabla,mes,anio)
-        total = totalDelMes(tabla)
-        for registros in tabla:
-            datos.append({"RFC": str(registros[1]), 'Nombre': str(registros[2]), 'Fecha':str(registros[3]), 'Vigente':str(registros[4]), 'subtotal':str(registros[5]), 'total':str(registros[6])})
-        tabla = serializers.serialize('json',datos)
+        cfdis = Factura.objects.filter(usuario=usuar.id,fecha__month=mes,fecha__year=anio)
+        #xmls = clasificar(tipo,cfdis)
+        #tabla = entablar(xmls)
+        #tabla = filtrarMes(tabla,mes,anio)
+        #total = totalDelMes(tabla)
+        #for registros in tabla:
+        #    datos.append({"RFC": str(registros[1]), 'Nombre': str(registros[2]), 'Fecha':str(registros[3]), 'Vigente':str(registros[4]), 'subtotal':str(registros[5]), 'total':str(registros[6])})
+        #tabla = serializers.serialize('json',datos)
+        tabla = serializers.serialize('json',cfdis)
         return HttpResponse(str(tabla))
     else:
         pass

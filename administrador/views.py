@@ -17,14 +17,19 @@ import datetime
 def index1(request):    
 	return render(request,'administrador/index.html')
 
-def acomodar(factura):
-	lectura= minidom.parse(os.getcwd()+"/media/"+str(factura.xml))
+def acomodar(archivoXML,factura):
+	lectura= minidom.parse(archivoXML)
+	lineas = lectura.getElementsByTagName("cfdi:Receptor")
+	factura.RFC = lineas[0].getAttribute("Rfc")
+	factura.razon_social = lineas[0].getAttribute("Nombre")
 	lineas = lectura.getElementsByTagName("cfdi:Comprobante")
 	tipoXML = lineas[0].getAttribute("TipoDeComprobante")
 	factura.tipo = tipoXML
 	fechaXML = lineas[0].getAttribute("Fecha")
 	fechaXML=datetime.datetime.strptime(fechaXML,"%Y-%m-%dT%H:%M:%S")
 	factura.fecha = fechaXML
+	factura.sub_total = lineas[0].getAttribute("SubTotal")
+	factura.total = lineas[0].getAttribute("Total")
 	factura.save()
 
 @login_required
@@ -32,9 +37,10 @@ def subidaXML(request):
 	if request.method == 'POST':
 		form = ArchivoForm1(request.POST, request.FILES)
 		if form.is_valid():
-			archivo = form.save(commit=False)
-			archivo.save()
-			acomodar(archivo)
+			archivoXML = request.FILES['xml']
+			factura = form.save(commit=False)
+			#factura.save()
+			acomodar(archivoXML,factura)
 		return redirect('vistaDocumentos')
 	else:
 		form = ArchivoForm1() 

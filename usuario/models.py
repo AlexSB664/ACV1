@@ -5,6 +5,7 @@ from superadmin.models import User
 from administrador.models import Administrador
 import os
 from django_cryptography.fields import encrypt
+import datetime
 
 def upload_e_firma(self, filename):
     return u'documentos/client_{0}/{1}'.format(self.email.id, filename)
@@ -42,15 +43,19 @@ class Cliente(models.Model):
 def upload_to(self, filename):
     return u'documentos/user_{0}/client_{1}/{2}'.format(self.contador.id,self.usuario.id, filename)
 
+def upload_factura(self, filename):
+    return u'documentos/user_{0}/client_{1}/{2}{3}-{4}/{5}'.format(self.contador.id,self.usuario.id,self.tipo,self.fecha.year,self.fecha.month, filename)
+
 class Factura(models.Model):
     subido_el = models.DateTimeField(auto_now_add=True)
     contador = models.ForeignKey(Administrador, on_delete=models.CASCADE, blank=True, null=True,related_name="contadorACargo")
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, blank=True, null=True,related_name="FDI")
-    xml = models.FileField(upload_to=upload_to)
-    pdf = models.FileField(upload_to=upload_to)
+    xml = models.FileField(upload_to=upload_factura)
+    pdf = models.FileField(upload_to=upload_factura)
     fecha = models.DateTimeField(null=True)#format='%Y-%m',input_formats=['%Y-%m'], null=True)
     tipo = models.CharField(max_length=1,null=True)
     RFC = models.CharField(max_length=14,null=True)
+    razon_social = models.CharField(max_length=100,null=True)
     sub_total = models.FloatField(null=True)
     total = models.FloatField(null=True)
 
