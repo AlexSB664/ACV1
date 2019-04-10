@@ -1,0 +1,44 @@
+{% extends 'usuario/plantilla.html' %}
+{% load static %}
+  {% block title %} Inicio {% endblock %}
+  {% block menubar %}{% include "usuario/menu.html" %}{% endblock %}
+{% block archivos %}
+<link href="{% static 'css/plugins/jasny/jasny-bootstrap.min.css' %}" rel="stylesheet"> 
+{% endblock %}
+{% block content %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins col-lg-12">
+                        <div class="ibox-title col-lg-12">
+                            <h5>Solicitud de Factura <small> Ayuda Contable</small></h5>
+                            <div class="ibox-tools col-lg-12">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content col-lg-12">
+                        <h5>Bienvenido {{user.nombre_completo}}</h5><br>
+                        <p>Nos agrada tenerte de vuelta</p>
+                        <p>Puede solicitar sus facturar mediante whatsapp</p>
+                        <a href="https://api.whatsapp.com/send?phone=5216647168910&text=Hola%2C%20deseo%20realizar%20una%20factura%20con%20ustedes"><i class="fa fa-whatsapp fa-5x"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+{% block scripts %}
+    <!-- CharJS con java script-->
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <!-- ChartJS-->
+    <script type="text/javascript" src="{% static 'js/demo/chartjs-demo.js' %}" rel="stylesheet"></script>
+    <script type="text/javascript" src="{% static 'js/plugins/chartJs/Chart.min.js' %}" rel="stylesheet"></script>
+    <script type="text/javascript">
+    #window.alert(5 + 6);
+    </script>
+
+{% endblock %}

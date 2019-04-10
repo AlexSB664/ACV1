@@ -224,13 +224,5 @@ def totalDelMes(tabla):
         total+=float(renglon[5])
     return total
 
-def busquedaTurores(request):
-    if  request.method == 'GET':
-        datos = []
-        filtro = request.GET['filtro']
-        data =  Tutor.objects.select_related().filter(tut_apellidos__contains = filtro)
-        for dt in data:
-            datos.append({"Usuario": str(dt.tut_nombre.username), 'Apellidos': str(dt.tut_apellidos), 'Numero':str(dt.tut_numero), 'Descripcion':str(dt.tut_descripcion)})
-    else:
-        datos = "No se ah encontrado nada"
-    return HttpResponse(str(datos))
+def solicitarFactura(request):
+    return render(request,'usuario/solicitudFactura.html')

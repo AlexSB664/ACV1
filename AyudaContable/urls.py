@@ -48,6 +48,7 @@ urlpatterns = [
     url(r'^usuario/documentosScript/$',usuario.views.leerXMLScript,name='vistaScript'),
     url(r'^usuario/firma/$',usuario.views.firmaContrato,name='firmaUsuario'),
     url(r'^usuario/firmaCiec/$',usuario.views.firmaCiec,name='firmaCiec'),
+    url(r'^usuario/solicitar/$',usuario.views.solicitarFactura,name='solicitarFactura'),
     url(r'^logout$', logout_then_login, name='logout' ),
     url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], superadmin.views.protected_serve, {'document_root': settings.MEDIA_ROOT}),
 ]

@@ -1,0 +1,5 @@
+#se tuvo problemas con los fallos de las fechas y para esto se utilizo los siguientes pasos
+#ir directamente a AyudaContable/settings.py y cambiar la variable por False
+USE_TZ = False
+#tambien fue necesaria un comando en la terminal
+sudo mysql_tzinfo_to_sql /usr/share/zoneinfo/ | mysql -u root mysql
