@@ -58,6 +58,7 @@ class Factura(models.Model):
     razon_social = models.CharField(max_length=100,null=True)
     sub_total = models.FloatField(null=True)
     total = models.FloatField(null=True)
+    vigente = models.BooleanField(default=True)
 
     def filename(self):
         return os.path.basename(self.xml.name)

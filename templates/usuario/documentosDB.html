@@ -22,6 +22,7 @@
                     x.addEventListener('load', function(e){
                         var jsonData = JSON.parse(x.responseText.replace(/\'/g,'"'))
                         //iterarObjeto(jsonData);
+                        console.log(jsonData);
                         iterarTabla(jsonData);
                     });
                 } 
@@ -35,14 +36,48 @@
 
 function iterarTabla(obj){
     document.getElementById('tablaFactura').children[1].innerHTML = '';
+    var total = 0;
     for(i = 0; i < obj.length; i++){
-        var span = validar(obj[i].xml)
+        console.log(obj[i]);
+        console.log(obj[i].fields.RFC);
+        //var span = validar(obj[i].xml)
+        //<th>Acciones</th>
+        //<th>RFC Cliente</th> 
+        //<th>Razón Social</th>
+        //<th>Fecha de Emision</th>
+        //<th>Vigente</th>
+        //<th>SubTotal</th>
+        //<th>Total</th>
+        //<th><a href="{{columna.0.url}}" download>Descargar XML</a>
+        //<a href="{{columna.1.url}}" download>Descargar PDF</a></th>                    
+        var vigencia = "";
+        console.log(obj[i].fields.vigente);
+        if (obj[i].fields.vigente == true) {
+            vigencia="vigente";
+        }else{
+            vigencia="caducado";
+        }
         var tr = document.createElement('tr');
-        tr.innerHTML ='<td>' + obj[i].xml + '</td>'+
-            '<td>' + obj[i].pdf + '</td>'+
-            '<td '+ span +'</td>';
+        tr.innerHTML = '<td><a href="../../media/'+obj[i].fields.xml+'" download>Descargar XML <a href="../../media/'+obj[i].fields.pdf+'" download>Descargar PDF</td>';
+        tr.innerHTML +='<td>' + obj[i].fields.RFC + '</td>';
+        tr.innerHTML +='<td>' + obj[i].fields.razon_social + '</td>';
+        tr.innerHTML +='<td>' + obj[i].fields.fecha + '</td>';
+        tr.innerHTML +='<td>' + vigencia + '</td>';
+        tr.innerHTML +='<td>' + obj[i].fields.sub_total + '</td>';
+        tr.innerHTML +='<td>' + obj[i].fields.total + '</td>';
         document.getElementById('tablaFactura').children[1].appendChild(tr);
+        total+=obj[i].fields.total;
     }
+    //imprimir total
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td></td>';
+    tr.innerHTML +='<td></td>';
+    tr.innerHTML +='<td></td>';
+    tr.innerHTML +='<td></td>';
+    tr.innerHTML +='<td></td>';
+    tr.innerHTML +='<th>Total del mes: </th>';
+    tr.innerHTML +='<th>' + total + '</th>';
+    document.getElementById('tablaFactura').children[1].appendChild(tr);
 }  
 </script>
 
@@ -63,9 +98,9 @@ function iterarTabla(obj){
                         <div class="ibox-content">
                         <input type="month" id="inputBusqueda" name="inputBusqueda" min="2018-01" value="{% now 'Y' %}-{%  now 'm' %}" onchange="cambiarFecha(this.value)">
                         <input type="hidden" name="tipo" id="tipo" value="{{tipo}}">
-                        {% if total == 0 %}
+                        <!--{% if total == 0 %}
                         <h1>No hay facturas en este mes</h1>
-                        {% else %}
+                        {% endif %}-->
                         <div class="table-responsive">
                         <table class="table" id="tablaFactura">
                         <thead>
@@ -83,10 +118,10 @@ function iterarTabla(obj){
                         <tr>
                             {% for columna in renglon %}
                             {% if forloop.first %}
-                            <th><a href="{{columna.0.url}}" download>Descargar XML</a>
-                            <a href="{{columna.1.url}}" download>Descargar PDF</a></th>
+                            <td><a href="{{columna.0.url}}" download>Descargar XML</a>
+                            <a href="{{columna.1.url}}" download>Descargar PDF</a></td>
                             {% else %}
-                                <th>{{columna}}</th>
+                                <td>{{columna}}</td>
                             {% endif %}
                             {% endfor %}
                         </tr>
@@ -102,7 +137,6 @@ function iterarTabla(obj){
                         </tr>
                         </table>
                         </div>
-                        {% endif %}
 
 
                         </div>
