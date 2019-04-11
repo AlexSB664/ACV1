@@ -36,11 +36,10 @@
 function iterarTabla(obj){
     document.getElementById('tablaFactura').children[1].innerHTML = '';
     for(i = 0; i < obj.length; i++){
-
-        var span = validar(obj[i].Usuario)
+        var span = validar(obj[i].xml)
         var tr = document.createElement('tr');
-        tr.innerHTML ='<td>' + obj[i].Usuario + '</td>'+
-            '<td>' + obj[i].Apellidos + '</td>'+
+        tr.innerHTML ='<td>' + obj[i].xml + '</td>'+
+            '<td>' + obj[i].pdf + '</td>'+
             '<td '+ span +'</td>';
         document.getElementById('tablaFactura').children[1].appendChild(tr);
     }
