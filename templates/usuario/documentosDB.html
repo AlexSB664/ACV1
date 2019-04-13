@@ -114,16 +114,19 @@ function iterarTabla(obj){
                             <th>Total</th>
                         </tr>
                         </thead>
-                        {% for renglon in tabla %}
+                        {% for factura in facturas %}
                         <tr>
-                            {% for columna in renglon %}
-                            {% if forloop.first %}
-                            <td><a href="{{columna.0.url}}" download>Descargar XML</a>
-                            <a href="{{columna.1.url}}" download>Descargar PDF</a></td>
+                            <td><a href="{{factura.xml.url}}" download>Descargar XML</a><a href="{{factura.pdf.url}}" download>Descargar PDF</a></td>
+                            <td>{{factura.RFC}}</td>
+                            <td>{{factura.razon_social}}</td>
+                            <td>{{factura.fecha}}</td>
+                            {% if factura.vigente %}
+                            <td>vigente</td>
                             {% else %}
-                                <td>{{columna}}</td>
+                            <td>caducado</td>
                             {% endif %}
-                            {% endfor %}
+                            <td>{{factura.sub_total}}</td>
+                            <td>{{factura.total}}</td>
                         </tr>
                         {% endfor %}
                         <tr>

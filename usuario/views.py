@@ -10,6 +10,7 @@ import os
 from usuario.forms import FirmaForm, FirmaCiec
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
+from django.db.models import Sum
 
 # Create your views here.
 def login(request):
@@ -100,13 +101,6 @@ def leerXMLScript(request):
         mes = fecha.month
         usuar = Usuario.objects.get(email=request.user.id)
         cfdis = Factura.objects.filter(usuario=usuar.id,fecha__month=mes,fecha__year=anio)
-        #xmls = clasificar(tipo,cfdis)
-        #tabla = entablar(xmls)
-        #tabla = filtrarMes(tabla,mes,anio)
-        #total = totalDelMes(tabla)
-        #for registros in tabla:
-        #    datos.append({"RFC": str(registros[1]), 'Nombre': str(registros[2]), 'Fecha':str(registros[3]), 'Vigente':str(registros[4]), 'subtotal':str(registros[5]), 'total':str(registros[6])})
-        #tabla = serializers.serialize('json',datos)
         tabla = serializers.serialize('json',cfdis)
         return HttpResponse(str(tabla))
     else:
@@ -151,6 +145,18 @@ def entablar(xmls):
         tablatemp.append(g)
         tabla.append(tablatemp)
     return tabla
+
+@login_required
+def leerXMLNMejor(request):
+    tabla = []
+    tipo = 'N'
+    hoy = datetime.date.today()
+    usuar = Usuario.objects.get(email=request.user.id)
+    cfdis = Factura.objects.filter(usuario=usuar.id,fecha__month=hoy.month,fecha__year=hoy.year)
+    total=0
+    for cfdi in cfdis:
+        total+=cfdi.total
+    return render(request,'usuario/documentosDB.html',{'tipo':tipo,'facturas':cfdis,'total':total})
 
 @login_required
 def leerXMLN(request):

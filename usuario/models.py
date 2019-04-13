@@ -56,9 +56,9 @@ class Factura(models.Model):
     tipo = models.CharField(max_length=1,null=True)
     RFC = models.CharField(max_length=14,null=True)
     razon_social = models.CharField(max_length=100,null=True)
+    vigente = models.BooleanField(default=True)
     sub_total = models.FloatField(null=True)
     total = models.FloatField(null=True)
-    vigente = models.BooleanField(default=True)
 
     def filename(self):
         return os.path.basename(self.xml.name)
