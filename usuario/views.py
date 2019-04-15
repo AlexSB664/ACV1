@@ -106,7 +106,55 @@ def leerXMLScript(request):
     else:
         pass
 
-def clasificar(tipo,cfdis):
+@login_required
+def leerXMLN(request):
+    tipo = 'N'
+    hoy = datetime.date.today()
+    usuar = Usuario.objects.get(email=request.user.id)
+    cfdis = Factura.objects.filter(usuario=usuar.id,fecha__month=hoy.month,fecha__year=hoy.year,tipo=tipo)
+    total=0
+    for cfdi in cfdis:
+        total+=cfdi.total
+    return render(request,'usuario/documentosDB.html',{'tipo':tipo,'facturas':cfdis,'total':total})
+
+@login_required
+def leerXMLI(request):
+    tipo = 'I'
+    hoy = datetime.date.today()
+    usuar = Usuario.objects.get(email=request.user.id)
+    cfdis = Factura.objects.filter(usuario=usuar.id,fecha__month=hoy.month,fecha__year=hoy.year,tipo=tipo)
+    total=0
+    for cfdi in cfdis:
+        total+=cfdi.total
+    return render(request,'usuario/documentosDB.html',{'tipo':tipo,'facturas':cfdis,'total':total})
+
+@login_required
+def leerXMLE(request):
+    tipo = 'E'
+    hoy = datetime.date.today()
+    usuar = Usuario.objects.get(email=request.user.id)
+    cfdis = Factura.objects.filter(usuario=usuar.id,fecha__month=hoy.month,fecha__year=hoy.year,tipo=tipo)
+    total=0
+    for cfdi in cfdis:
+        total+=cfdi.total
+    return render(request,'usuario/documentosDB.html',{'tipo':tipo,'facturas':cfdis,'total':total})
+
+@login_required
+def leerXMLP(request):
+    tipo = 'P'
+    hoy = datetime.date.today()
+    usuar = Usuario.objects.get(email=request.user.id)
+    cfdis = Factura.objects.filter(usuario=usuar.id,fecha__month=hoy.month,fecha__year=hoy.year,tipo=tipo)
+    total=0
+    for cfdi in cfdis:
+        total+=cfdi.total
+    return render(request,'usuario/documentosDB.html',{'tipo':tipo,'facturas':cfdis,'total':total})
+
+@login_required
+def solicitarFactura(request):
+    return render(request,'usuario/solicitudFactura.html')
+
+"""def clasificar(tipo,cfdis):
     documentos=[]
     for x in cfdis:
         y=minidom.parse(os.getcwd()+"/media/"+str(x.xml))
@@ -144,21 +192,8 @@ def entablar(xmls):
         tablatemp.append(f)
         tablatemp.append(g)
         tabla.append(tablatemp)
-    return tabla
-
-@login_required
-def leerXMLNMejor(request):
-    tabla = []
-    tipo = 'N'
-    hoy = datetime.date.today()
-    usuar = Usuario.objects.get(email=request.user.id)
-    cfdis = Factura.objects.filter(usuario=usuar.id,fecha__month=hoy.month,fecha__year=hoy.year)
-    total=0
-    for cfdi in cfdis:
-        total+=cfdi.total
-    return render(request,'usuario/documentosDB.html',{'tipo':tipo,'facturas':cfdis,'total':total})
-
-@login_required
+    return tabla"""
+"""@login_required
 def leerXMLN(request):
     tipo = 'N'
     usuar = Usuario.objects.get(email=request.user.id)
@@ -228,7 +263,4 @@ def totalDelMes(tabla):
     total = 0
     for renglon in tabla:
         total+=float(renglon[5])
-    return total
-
-def solicitarFactura(request):
-    return render(request,'usuario/solicitudFactura.html')
+    return total"""
