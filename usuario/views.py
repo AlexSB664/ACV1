@@ -154,6 +154,43 @@ def leerXMLP(request):
 def solicitarFactura(request):
     return render(request,'usuario/solicitudFactura.html')
 
+def generarOxxoPay(request):
+    import conekta
+    conekta.api_key = "key_eYvWV7gSDkNYXsmr"
+    conekta.api_version = "2.0.0"
+    order = conekta.Order.create({
+    "line_items": [{
+        "name": "Tacos",
+        "unit_price": 10000,
+        "quantity": 1
+    }],
+    #"shipping_lines": [{
+    #    "amount": 1500,
+    #    "carrier": "FEDEX"
+    #}], #shipping_lines - physical goods only
+    "currency": "MXN",
+    "customer_info": {
+      "name": "Fulanito Pérez",
+      "email": "fulanito@conekta.com",
+      "phone": "+5218181818181"
+    },
+    "shipping_contact":{
+       "address": {
+         "street1": "Calle 123, int 2",
+         "postal_code": "06100",
+         "country": "MX"
+       }
+    }, #shipping_contact - required only for physical goods
+    "charges":[{
+      "payment_method": {
+        "type": "oxxo_cash"
+      }
+    }]
+    })
+    monto=str(order.amount/100)
+    referencia=order.charges[0].payment_method.reference
+    referencia=referencia[0:4]+"-"+referencia[4:8]+"-"+referencia[8:12]+"-"+referencia[12:14]
+    return render(request,'usuario/OxxoPay.html',{'referencia':referencia,'monto':monto})
 """def clasificar(tipo,cfdis):
     documentos=[]
     for x in cfdis:
