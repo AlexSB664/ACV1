@@ -6,6 +6,8 @@ from administrador.models import Administrador
 import os
 from django_cryptography.fields import encrypt
 import datetime
+import conekta
+from datetime import datetime 
 
 def upload_e_firma(self, filename):
     return u'documentos/client_{0}/{1}'.format(self.email.id, filename)
@@ -60,6 +62,9 @@ class Factura(models.Model):
     sub_total = models.FloatField(null=True)
     total = models.FloatField(null=True)
 
+    def __str__(self):
+        return razon_social+str(fecha)
+
     def filename(self):
         return os.path.basename(self.xml.name)
 
@@ -69,3 +74,12 @@ class Factura(models.Model):
 #        if not "XML" in filetype:
 #            raise ValidationError("File is not XML.")
 #        return self.cleaned_data 
+
+class PagoServicio(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, blank=True, null=True,related_name="cargo_a_usuario")
+    fecha = models.DateTimeField(default=datetime.now, blank=True)
+    referencia = models.CharField(max_length=100,null=True)
+    orden = conekta.Order
+
+    def __str__(self):
+        return str(self.referencia)
