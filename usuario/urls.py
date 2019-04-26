@@ -16,4 +16,5 @@ urlpatterns = [
 	url(r'^usuario/firmaCiec/$',views.firmaCiec,name='firmaCiec'),
 	url(r'^usuario/solicitar/$',views.solicitarFactura,name='solicitarFactura'),
 	url(r'^usuario/referencia/$',views.generarOxxoPay,name='generarReferencia'),
+	url(r'^webhook/$',views.webhook,name='webhook'),
 ]

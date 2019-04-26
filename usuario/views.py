@@ -23,7 +23,6 @@ def login(request):
             auth.login(request, user)
             return redirect('redi')
         else:
-            # Show an error page
             mensaje = "Error credenciales no validas"
             return render(request,'login.html',{'mensaje':mensaje})
     else:
@@ -191,6 +190,21 @@ def generarOxxoPay(request):
     referencia=order.charges[0].payment_method.reference
     referencia=referencia[0:4]+"-"+referencia[4:8]+"-"+referencia[8:12]+"-"+referencia[12:14]
     return render(request,'usuario/OxxoPay.html',{'referencia':referencia,'monto':monto})
+
+def webhook(request):
+    import json
+    mensaje=""
+    data = json.loads(HttpRequest.body)
+    if data.type == 'charge.paid':
+        msg['Subject'] = 'Pago confirmado'
+        msg['From'] = me
+        msg['To'] = you
+        mensaje="exitoso"
+    s = smtplib.SMTP('localhost')
+    s.sendmail(me, [you], msg.as_string())
+    s.quit()
+    return render(request,'usuario/OxxoPay.html')
+
 """def clasificar(tipo,cfdis):
     documentos=[]
     for x in cfdis:
