@@ -205,6 +205,8 @@ def webhook(request):
     s.quit()
     return render(request,'usuario/OxxoPay.html')
 
+def enviarCorreo():
+    
 """def clasificar(tipo,cfdis):
     documentos=[]
     for x in cfdis:
