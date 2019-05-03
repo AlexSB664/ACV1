@@ -1,4 +1,6 @@
-from django.shortcuts import render,redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.shortcuts import render,redirect,HttpResponse
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from superadmin.models import User
@@ -155,7 +157,7 @@ def solicitarFactura(request):
 
 def generarOxxoPay(request):
     import conekta
-    conekta.api_key = "key_eYvWV7gSDkNYXsmr"
+    conekta.api_key = "key_vssXxqzYzDLz7Hfz2yPyrQ"
     conekta.api_version = "2.0.0"
     order = conekta.Order.create({
     "line_items": [{
@@ -191,19 +193,15 @@ def generarOxxoPay(request):
     referencia=referencia[0:4]+"-"+referencia[4:8]+"-"+referencia[8:12]+"-"+referencia[12:14]
     return render(request,'usuario/OxxoPay.html',{'referencia':referencia,'monto':monto})
 
+@csrf_exempt
+@require_POST
 def webhook(request):
     import json
-    mensaje=""
-    data = json.loads(HttpRequest.body)
-    if data.type == 'charge.paid':
-        msg['Subject'] = 'Pago confirmado'
-        msg['From'] = me
-        msg['To'] = you
-        mensaje="exitoso"
-    s = smtplib.SMTP('localhost')
-    s.sendmail(me, [you], msg.as_string())
-    s.quit()
-    return render(request,'usuario/OxxoPay.html')
+    print(request.body)
+    data = json.loads(request.body)
+    if data["type"] == 'charge.paid':
+        print("Cargo exitoso!!!")
+    return HttpResponse(status=200)
 
 """def clasificar(tipo,cfdis):
     documentos=[]

@@ -1,0 +1,7 @@
+cryptography
+django-cryptography
+mysqlclient
+django
+django-debug-toolbar
+Pillow
+conekta
