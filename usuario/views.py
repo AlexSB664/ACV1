@@ -204,10 +204,8 @@ def webhook(request):
     s.sendmail(me, [you], msg.as_string())
     s.quit()
     return render(request,'usuario/OxxoPay.html')
-
-def enviarCorreo():
-    
-"""def clasificar(tipo,cfdis):
+"""    
+def clasificar(tipo,cfdis):
     documentos=[]
     for x in cfdis:
         y=minidom.parse(os.getcwd()+"/media/"+str(x.xml))
@@ -245,8 +243,8 @@ def entablar(xmls):
         tablatemp.append(f)
         tablatemp.append(g)
         tabla.append(tablatemp)
-    return tabla"""
-"""@login_required
+    return tabla
+@login_required
 def leerXMLN(request):
     tipo = 'N'
     usuar = Usuario.objects.get(email=request.user.id)
@@ -316,4 +314,5 @@ def totalDelMes(tabla):
     total = 0
     for renglon in tabla:
         total+=float(renglon[5])
-    return total"""
+    return total
+"""
