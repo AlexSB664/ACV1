@@ -23,9 +23,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '4p$9h5hanadjp!!+71r#z+!ne^!e!5y=f5rghz%#x%d6d5mjx('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+""" 
+#configuaracion local
+DEBUG = True
+ALLOWED_HOSTS = []
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+"""
 
+#configuracion de servidor
+DEBUG = False
 ALLOWED_HOSTS = ['127.0.0.1']
+STATIC_ROOT = '/opt/statics/AC'
+MEDIA_ROOT = '/home/alex/ACV1/media'
 
 
 # Application definition
@@ -123,12 +132,11 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/opt/statics/AC'
 AUTH_USER_MODEL = 'superadmin.User'
 
 #para la subida de archivos
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/alex/ACV1/media'
+
 
 #Para las fotos
 INTERCEPT_REDIRECTS = False
