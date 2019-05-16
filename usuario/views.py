@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from superadmin.models import User
-from usuario.models import Factura, Usuario
+from usuario.models import Factura, Usuario,PagoServicio
 from xml.dom import minidom
 from django.core import serializers
 import datetime
@@ -159,51 +159,82 @@ def generarOxxoPay(request):
     import conekta
     conekta.api_key = "key_vssXxqzYzDLz7Hfz2yPyrQ"
     conekta.api_version = "2.0.0"
-    order = conekta.Order.create({
-    "line_items": [{
-        "name": "Tacos",
-        "unit_price": 10000,
-        "quantity": 1
-    }],
-    #"shipping_lines": [{
-    #    "amount": 1500,
-    #    "carrier": "FEDEX"
-    #}], #shipping_lines - physical goods only
-    "currency": "MXN",
-    "customer_info": {
-      "name": "Fulanito Pérez",
-      "email": "fulanito@conekta.com",
-      "phone": "+5218181818181"
-    },
-    "shipping_contact":{
-       "address": {
-         "street1": "Calle 123, int 2",
-         "postal_code": "06100",
-         "country": "MX"
-       }
-    }, #shipping_contact - required only for physical goods
-    "charges":[{
-      "payment_method": {
-        "type": "oxxo_cash"
-      }
-    }]
-    })
-    monto=str(order.amount/100)
-    referencia=order.charges[0].payment_method.reference
-    referencia=referencia[0:4]+"-"+referencia[4:8]+"-"+referencia[8:12]+"-"+referencia[12:14]
+    hoy = datetime.date.today()
+    mes_actual = hoy.month
+    usuario = Usuario.objects.get(email=request.user.id)
+    orden = PagoServicio.objects.filter(usuario=usuario,fecha_creado__month=mes_actual)
+    if orden.count() != 0:
+        referencia = orden.referencia
+        monto = orden.monto
+    else:
+        order = conekta.Order.create({
+            "line_items": [{
+            "name": "Tacos",
+            "unit_price": 10000,
+            "quantity": 1
+            }],
+            "currency": "MXN",
+            "customer_info": {
+            "name": "Fulanito Pérez",
+            "email": "fulanito@conekta.com",
+            "phone": "+5218181818181"
+            },
+            "shipping_contact":{
+            "address": {
+            "street1": "Calle 123, int 2",
+            "postal_code": "06100",
+            "country": "MX"
+            }
+            }, #shipping_contact - required only for physical goods
+            "charges":[{
+            "payment_method": {
+            "type": "oxxo_cash"
+            }
+            }]
+            })
+        monto=str(order.amount/100)
+        referencia=order.charges[0].payment_method.reference
+        referencia=referencia[0:4]+"-"+referencia[4:8]+"-"+referencia[8:12]+"-"+referencia[12:14]
+        orden= PagoServicio()
+        orden.referencia=referencia
+        orden.monto=monto
+        orden.estado_de_la_orden = order.payment_status
+        orden.id_orden = order.id
+        orden.usuario =usuario
+        orden.save()
     return render(request,'usuario/OxxoPay.html',{'referencia':referencia,'monto':monto})
 
 @csrf_exempt
 @require_POST
 def webhook(request):
     import json
-    print(request.body)
     data = json.loads(request.body)
     if data["type"] == 'charge.paid':
-        print("Cargo exitoso!!!")
+        from usuario.correo import Correo
+        email=Correo()
+        email.enviarCorreo("alexskullsoft@gmail.com","Alexis Eduardo Silva Bautista")
+    elif data["type"] == 'order.paid':
+        #print(data["data"]["object"]["charges"]["data"][0]["order_id"])
+        from usuario.correo import Correo
+        email=Correo()
+        email.enviarCorreo("alexskullsoft@gmail.com","Alexis Eduardo Silva Bautista")
+    else:
+        pass
     return HttpResponse(status=200)
 
 """def clasificar(tipo,cfdis):
+    mensaje=""
+    data = json.loads(HttpRequest.body)
+    if data.type == 'charge.paid':
+        msg['Subject'] = 'Pago confirmado'
+        msg['From'] = me
+        msg['To'] = you
+        mensaje="exitoso"
+    s = smtplib.SMTP('localhost')
+    s.sendmail(me, [you], msg.as_string())
+    s.quit()
+    return render(request,'usuario/OxxoPay.html')
+def clasificar(tipo,cfdis):
     documentos=[]
     for x in cfdis:
         y=minidom.parse(os.getcwd()+"/media/"+str(x.xml))
@@ -241,8 +272,8 @@ def entablar(xmls):
         tablatemp.append(f)
         tablatemp.append(g)
         tabla.append(tablatemp)
-    return tabla"""
-"""@login_required
+    return tabla
+@login_required
 def leerXMLN(request):
     tipo = 'N'
     usuar = Usuario.objects.get(email=request.user.id)
@@ -312,4 +343,5 @@ def totalDelMes(tabla):
     total = 0
     for renglon in tabla:
         total+=float(renglon[5])
-    return total"""
+    return total
+"""

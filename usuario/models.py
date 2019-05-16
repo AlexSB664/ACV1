@@ -77,9 +77,12 @@ class Factura(models.Model):
 
 class PagoServicio(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, blank=True, null=True,related_name="cargo_a_usuario")
-    fecha = models.DateTimeField(default=datetime.now, blank=True)
     referencia = models.CharField(max_length=100,null=True)
-    orden = conekta.Order
+    id_orden = models.CharField(max_length=22,null=True)
+    estado_de_la_orden = models.CharField(max_length=30,null=True)
+    monto = models.CharField(max_length=10,null=True)
+    fecha_creado = models.DateTimeField(default=datetime.now, blank=True)
 
+    
     def __str__(self):
         return str(self.referencia)
